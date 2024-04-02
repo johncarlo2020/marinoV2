@@ -26,7 +26,7 @@ class CreditChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Sales',
+                    'label' => 'Credit Amount',
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                     'backgroundColor' => '#36A2EB',
                     'borderColor' => '#9BD0F5',
