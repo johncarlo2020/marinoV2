@@ -40,13 +40,16 @@ class StatsOverview extends BaseWidget
             $formattedAmount = number_format($cardData, 0, '.', ',') . ' BHT';
 
             $credit = Credit::sum('amount');
+            $formattedCredit = number_format($credit, 0, '.', ',') ;
+
             $sales = Shift::sum('sales');
+            $formattedSales = number_format($sales, 0, '.', ',') ;
 
              // Create and return the card
              return [
                 Card::make('Balance', $formattedAmount),
-                Card::make('Sales', $sales),
-                Card::make('Credit', $credit),
+                Card::make('Sales', $formattedSales),
+                Card::make('Credit', $formattedCredit),
 
             ];
     }
