@@ -5,23 +5,23 @@ namespace App\Filament\Widgets;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use App\Models\Shift;
-
-class SalesChart extends ChartWidget
+use App\Models\Credit;
+class CreditChart extends ChartWidget
 {
-    protected static ?string $heading = 'Sales Chart';
-    protected static ?int $sort = 2;
+
+    protected static ?string $heading = 'Credit Chart';
+    protected static ?int $sort = 3;
 
     protected function getData(): array
     {
-        $data = Trend::model(Shift::class)
-            ->dateColumn('date')
+        $data = Trend::model(Credit::class)
+            ->dateColumn('created_at')
             ->between(
                 start: now()->startOfYear(),
                 end: now()->endOfYear(),
             )
             ->perMonth()
-            ->sum('sales');
+            ->sum('amount');
      
         return [
             'datasets' => [
@@ -38,6 +38,6 @@ class SalesChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'line';
+        return 'bar';
     }
 }
