@@ -19,6 +19,13 @@ class ShiftResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
+    public static function getWidgets(): array
+    {
+        return [
+            ShiftResource\Widgets\ShiftOverview::class,
+        ];
+    }
+
 
     public static function form(Form $form): Form
     {
