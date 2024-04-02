@@ -54,9 +54,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost/marinoV2/public'),
+    'url' => env('APP_URL'),
 
-    'asset_url' => env('ASSET_URL', '/marinoV2/public'),
+    'asset_url' => env('APP_URL'),
 
     /*
     |--------------------------------------------------------------------------
