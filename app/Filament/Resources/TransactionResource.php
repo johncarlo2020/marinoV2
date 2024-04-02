@@ -19,6 +19,13 @@ class TransactionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
+    public static function getWidgets(): array
+    {
+        return [
+            TransactionResource\Widgets\TransactionOverview::class,
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -53,7 +60,7 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('shift_id')
+                Tables\Columns\TextColumn::make('shift.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('number')

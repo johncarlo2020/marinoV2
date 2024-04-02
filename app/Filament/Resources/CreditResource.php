@@ -19,6 +19,12 @@ class CreditResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
+    public static function getWidgets(): array
+    {
+        return [
+            CreditResource\Widgets\CreditOverview::class,
+        ];
+    }
 
     public static function form(Form $form): Form
     {
