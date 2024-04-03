@@ -11,6 +11,7 @@ class SalesChart extends ChartWidget
 {
     protected static ?string $heading = 'Sales Chart';
     protected static ?int $sort = 2;
+    protected static ?string $pollingInterval = null;
 
     protected function getData(): array
     {

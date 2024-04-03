@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Carbon\Carbon;
 use App\Models\Credit;
 
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 class TransactionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'transactions';
@@ -66,6 +70,9 @@ class TransactionsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')->fromTable(),
+                ]),
                 Tables\Actions\CreateAction::make()
                 ->before(function (array $data) {
                     $currentDate = Carbon::now();

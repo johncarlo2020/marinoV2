@@ -14,6 +14,7 @@ class ShiftChart extends ApexChartWidget
  
     // protected static string $chartId = 'tasksChart';
     protected static ?int $sort = 4;
+    protected static ?string $pollingInterval = null;
 
  
     protected static ?string $heading = 'Sales Chart Daily';

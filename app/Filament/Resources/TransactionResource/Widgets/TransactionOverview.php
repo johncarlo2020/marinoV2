@@ -13,9 +13,11 @@ class TransactionOverview extends BaseWidget
     {
         return ListTransactions::class;
     }
+    protected static ?string $pollingInterval = null;
 
     protected function getStats(): array
     {
+
         return [
             Stat::make('Total Sales', $this->getPageTableQuery()->sum('php_amount')),
         ];

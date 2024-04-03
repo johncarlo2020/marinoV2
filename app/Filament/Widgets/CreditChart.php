@@ -11,6 +11,7 @@ class CreditChart extends ChartWidget
 
     protected static ?string $heading = 'Credit Chart';
     protected static ?int $sort = 3;
+    protected static ?string $pollingInterval = null;
 
     protected function getData(): array
     {
