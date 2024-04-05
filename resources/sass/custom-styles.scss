@@ -866,6 +866,100 @@ body {
 
 }
 
+input,select,option {
+    height: 44px;
+}
+
+.form-select {
+    font-size: $font-small;
+}
+
+.input-text {
+    margin-bottom: 20px;
+    span {
+        margin-left: auto;
+        padding-bottom: 5px;
+        display: block;
+        color: $silver-500;
+        font-weight: 400;
+    }
+    input {
+        &::placeholder {
+            color: $silver-500;
+            font-size: $font-small;
+        }
+    }
+
+}
+
+.form-label-text {
+    margin-left: auto;
+    padding-bottom: 5px;
+    display: block;
+    color: $silver-500;
+    font-weight: 400;
+}
+
+
+.description {
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.form-requestload {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.best-deals {
+    .option-block {
+        border: solid 1px $silver-300;
+        border-radius: 4px;
+        padding: 10px 30px 10px;
+
+        &:hover {
+            border: solid 1px $gold-500;
+            background-color: $gold-transparent-2;
+            transition: all 0.3s ease 0s;
+        }
+
+
+        span {
+            display: block;
+            text-align: left;
+
+            &.title {
+                font-size: $font-medium;
+                font-weight: 600;
+                line-height: 22px;
+            }
+            &.description {
+                font-size: $font-small;
+                font-weight: 400;
+                color: $silver-500;
+                line-height: 22px;
+            }
+        }
+    }
+    .option-block-amount {
+        border: solid 1px $silver-300;
+        border-radius: 4px;
+        padding: 10px 30px 10px;
+    }
+}
+
+.payment-options {
+    h6{
+        font-weight: 600;
+    }
+    li {
+        font-size: $font-small;
+        color: $silver-500;
+    }
+}
+
 
 
 

@@ -31,3 +31,5 @@ Route::get('/about-us', [GuestController::class, 'aboutUs'])->name('about-us');
 Route::get('/products', [GuestController::class, 'products'])->name('products');
 Route::get('/clients', [GuestController::class, 'clients'])->name('clients');
 Route::get('/contact', [GuestController::class, 'contact'])->name('contact');
+Route::post('/check', [GuestController::class, 'checkEmail'])->name('check-email');
+Route::post('/request', [GuestController::class, 'requestLoad'])->name('request');

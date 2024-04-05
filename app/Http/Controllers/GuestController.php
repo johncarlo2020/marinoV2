@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
 use App\Models\Products;
+use App\Models\Network;
+use App\Models\Package;
+use App\Models\Amount;
+use App\Models\Client;
 
 class GuestController extends Controller
 {
@@ -36,6 +40,28 @@ class GuestController extends Controller
     public function contact() {
         $this->sharedData();
         return view('contact');
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $email = $request->email;
+        //check if email exist in db on Client table
+        $client = Client::where('email', $email)->first();
+
+        return response()->json(['exist' => $client ? true : false]);
+    }
+
+    public function requestLoad (Request $request) {
+
+        $validatedData = $request->validate([
+            'full_name' => 'required|max:255',
+            'phone_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'email' => 'required|email',
+            'payment_method' => 'required',
+            'network' => 'required',
+            'transaction_receipt' => 'required|file',
+        ]);
+
     }
 
     public function sharedData()
@@ -524,9 +550,77 @@ class GuestController extends Controller
             ],
         ];
 
+        $loadTypes = [
+            [
+                'name' => 'Amount',
+                'value' => 'amount',
+            ],
+            [
+                'name' => 'Plan',
+                'value' => 'plan',
+            ],
+        ];
 
+        $paymentTypes = [
+            [
+                'name' => 'Cash',
+                'value' => 'cash',
+            ],
+            [
+                'name' => 'Debit',
+                'value' => 'debit',
+            ],
+        ];
 
+        $banks = [
+            'Bdo' => '000161016650',
+            'Bpi' => '0429714524',
+            'Metrobank' => '1813181377284',
+            'Pnb' => '110310085179',
+            'Security Bank' => '0000017041371',
+            'Unionbank' => '109430949568',
+            'Seabank' => '10429718263',
+            'Rcbc' => '0000009042219881',
+            'Eastwestbank' => '200054314597',
+            'Chinabank' => '100302739344',
+            'Citibank' => '8670000754',
+            'GOtyme bank' => '010507552519',
+        ];
 
+        $eWallets = [
+            'Gcash 1' => [
+                'name' => 'Flora Mae Llanera',
+                'number' => '09159966353',
+            ],
+            'Gcash 2' => [
+                'name' => 'Jonathan Llanera Jr',
+                'number' => '09106087577',
+            ],
+            'Gcash 3' => [
+                'name' => 'maridel almendras',
+                'number' => '09386314151',
+            ],
+            'Gcash 4' => [
+                'name' => 'Jonathan Llanera',
+                'number' => '09534271035',
+            ],
+        ];
+
+        $others = [
+            'Coins.ph' => '09159966353',
+            'Paymaya' => '09159966353',
+            'Grabpay' => '09159966353',
+            'Palawan Wallet' => '09159966353',
+            'M.lhuiller' => null,
+            'Paypal' => null,
+            'Cebuana' => null,
+            'Western Union' => null,
+            'Lbc' => null,
+        ];
+
+        $packages = Package::get();
+        $amounts = Amount::get();
+        $networks = Network::get();
 
         view()->share([
             'iconData' => $iconData,
@@ -562,7 +656,15 @@ class GuestController extends Controller
             'fbLink' => $fbLink,
             'mission' => $mission,
             'vission' => $vission,
-            'creditedLogo' => $creditedLogo
+            'creditedLogo' => $creditedLogo,
+            'networks' =>  $networks,
+            'loadTypes' => $loadTypes,
+            'paymentTypes' => $paymentTypes,
+            'packages' => $packages,
+            'amounts' => $amounts,
+            'banks' => $banks,
+            'eWallets' => $eWallets,
+            'others' => $others,
         ]);
 
     }
