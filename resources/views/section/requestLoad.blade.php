@@ -9,23 +9,26 @@
             <div class="row">
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Full name</span>
-                    <input name="full_name" type="text" class="form-control" placeholder="Full name" aria-label="Full name">
+                    <input name="full_name" type="text" class="form-control" placeholder="Full name"
+                        aria-label="Full name">
                     @error('full_name')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Phone number</span>
-                    <input name="phone_number" type="text" class="form-control" placeholder="+639xxxxxxxx" aria-label="Full name">
+                    <input name="phone_number" type="text" class="form-control" placeholder="+639xxxxxxxx"
+                        aria-label="Full name">
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Email</span>
-                    <input name="email" type="email" class="form-control" placeholder="example@email.com" aria-label="Email"
-                        onblur="checkEmail(this.value)">
+                    <input name="email" type="email" class="form-control" placeholder="example@email.com"
+                        aria-label="Email" onblur="checkEmail(this.value)">
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Payment method</span>
-                    <select id="paymentTypes" name="payment_method" class="form-select" aria-label="Select payment method" disabled>
+                    <select id="paymentTypes" name="payment_method" class="form-select"
+                        aria-label="Select payment method" disabled>
                         @foreach ($paymentTypes as $type )
                         <option value="{{$type['value']}}">{{$type['name']}}</option>
                         @endforeach
@@ -182,16 +185,22 @@
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                console.log(response);
+                //remove disable to select load types
+                let isTrue = response.exist;
+                document.getElementById('paymentTypes').removeAttribute('disabled');
+
+                if(!isTrue){
+                    return;
+                }
+
+                // pre select first option in paymentTypes and disable to second option
+                document.getElementById('paymentTypes').selectedIndex = 1;
+                document.getElementById('paymentTypes').options[1].setAttribute('disabled', 'disabled');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error(textStatus, errorThrown);
             }
         });
-
-        //remove disable to select load types
-        document.getElementById('paymentTypes').removeAttribute('disabled');
-
     }
 
     function hideOptions(){
