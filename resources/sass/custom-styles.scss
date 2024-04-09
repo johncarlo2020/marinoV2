@@ -918,6 +918,7 @@ input,select,option {
         border: solid 1px $silver-300;
         border-radius: 4px;
         padding: 10px 30px 10px;
+        width: 100%;
 
         &:hover {
             border: solid 1px $gold-500;
