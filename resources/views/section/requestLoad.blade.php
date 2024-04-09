@@ -9,23 +9,26 @@
             <div class="row">
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Full name</span>
-                    <input name="full_name" type="text" class="form-control" placeholder="Full name" aria-label="Full name" required>
+                    <input name="full_name" type="text" class="form-control" placeholder="Full name"
+                        aria-label="Full name" required>
                     @error('full_name')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Phone number</span>
-                    <input name="phone_number" type="text" class="form-control" placeholder="+639xxxxxxxx" aria-label="Full name" required>
+                    <input name="phone_number" type="text" class="form-control" placeholder="+639xxxxxxxx"
+                        aria-label="Full name" required>
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Email</span>
-                    <input name="email" type="email" class="form-control" placeholder="example@email.com" aria-label="Email"
-                        onblur="checkEmail(this.value)" required>
+                    <input name="email" type="email" class="form-control" placeholder="example@email.com"
+                        aria-label="Email" onblur="checkEmail(this.value)" required>
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Payment method</span>
-                    <select id="paymentTypes" name="payment_method" class="form-select" aria-label="Select payment method" disabled required>
+                    <select id="paymentTypes" name="payment_method" class="form-select"
+                        aria-label="Select payment method" disabled required>
                         @foreach ($paymentTypes as $type )
                         <option value="{{$type['value']}}">{{$type['name']}}</option>
                         @endforeach
@@ -56,10 +59,10 @@
             <div class="best-deals">
                 <div id="packagesList" class="row mt-2 d-none">
                     @foreach ($packages as $plan)
-                    <div class="col-sm-12 col-lg-4 mb-3">
-                        <div class="form-check option-block">
-                            <input class="form-check-input" type="radio" name="package" value="{{$plan->id}}">
-                            <label class="form-check-label" for="load">
+                    <div class="col-sm-12 col-lg-4 mb-3 option-container">
+                        <div class="form-check">
+                            <label class="form-check-label option-block" for="plan{{$plan->id}}">
+                                <input class="form-check-input" type="radio" name="load" id="plan{{$plan->id}}" value="{{$plan->id}}">
                                 <span class="title">{{ $plan->name }}</span>
                                 <span class="description">{{ $plan->description }}</span>
                             </label>
@@ -70,9 +73,9 @@
                 <div id="amountsList" class="row mt-2 d-none">
                     @foreach ($amounts as $plan)
                     <div class="col-sm-12 col-lg-4 mb-3">
-                        <div class="form-check option-block-amount">
-                            <input class="form-check-input" type="radio" name="amount" value="{{$plan->id}}">
-                            <label class="form-check-label" for="load">
+                        <div class="form-check">
+                            <label class="form-check-label option-block" for="amount{{$plan->id}}">
+                                <input class="form-check-input" type="radio" name="load" id="load{{$plan->id}}" value="{{$plan->id}}">
                                 <span class="amounts">₱{{ $plan->peso }} | ฿{{ $plan->baht }}</span>
                             </label>
                         </div>
@@ -117,6 +120,18 @@
                             </li>
                             @endforeach
                         </ul>
+                    </div>
+                </div>
+                <div class="payment-options mt-4">
+                    <div class="row">
+                        <div class="col-12 col">
+                            <h6>Note</h6>
+                            <ul>
+                                <li>If GCash is unavailable and payment is made at 7/11, kindly include an additional 2%
+                                    to the total amount to cover associated fees, as this amount is deducted from my
+                                    end. Thank you.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -208,25 +223,22 @@
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                if (response.exist === false) {
-                    console.log('false');
-                // If email exists, hide the credit option
-                $('#paymentTypes option[value="credit"]').hide();
-                } else {
-                    console.log('true');
+                //remove disable to select load types
+                let isTrue = response.exist;
+                document.getElementById('paymentTypes').removeAttribute('disabled');
 
-                // If email doesn't exist, show the credit option
-                $('#paymentTypes option[value="credit"]').show();
+                if(!isTrue){
+                    return;
                 }
+
+                // pre select first option in paymentTypes and disable to second option
+                document.getElementById('paymentTypes').selectedIndex = 1;
+                document.getElementById('paymentTypes').options[1].setAttribute('disabled', 'disabled');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error(textStatus, errorThrown);
             }
         });
-
-        //remove disable to select load types
-        document.getElementById('paymentTypes').removeAttribute('disabled');
-
     }
 
     function hideOptions(){
