@@ -23,7 +23,7 @@
         <!-- Add Slick Carousel Theme CSS (optional) -->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
-        @vite(['resources/css/app.css','resources/sass/app.scss', 'resources/js/app.js'])
+        @vite(['resources/css/app.css','resources/scss/app.scss', 'resources/js/app.js'])
 
     </head>
     <body>
