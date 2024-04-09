@@ -3,29 +3,29 @@
     <p class="description">
         {{$description}}
     </p>
-    <form method="POST" action="{{ route('request') }}" enctype="multipart/form-data">
+    <form id="myForm" enctype="multipart/form-data">
         @csrf
         <div class="form-requestload">
             <div class="row">
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Full name</span>
-                    <input name="full_name" type="text" class="form-control" placeholder="Full name" aria-label="Full name">
+                    <input name="full_name" type="text" class="form-control" placeholder="Full name" aria-label="Full name" required>
                     @error('full_name')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Phone number</span>
-                    <input name="phone_number" type="text" class="form-control" placeholder="+639xxxxxxxx" aria-label="Full name">
+                    <input name="phone_number" type="text" class="form-control" placeholder="+639xxxxxxxx" aria-label="Full name" required>
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Email</span>
                     <input name="email" type="email" class="form-control" placeholder="example@email.com" aria-label="Email"
-                        onblur="checkEmail(this.value)">
+                        onblur="checkEmail(this.value)" required>
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Payment method</span>
-                    <select id="paymentTypes" name="payment_method" class="form-select" aria-label="Select payment method" disabled>
+                    <select id="paymentTypes" name="payment_method" class="form-select" aria-label="Select payment method" disabled required>
                         @foreach ($paymentTypes as $type )
                         <option value="{{$type['value']}}">{{$type['name']}}</option>
                         @endforeach
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Network</span>
-                    <select id="networks" name="network" class="form-select" aria-label="Default select example">
+                    <select id="networks" name="network" class="form-select" aria-label="Default select example" required>
                         <option value="">Select a network</option>
                         @foreach($networks as $network)
                         <option value="{{$network->id}}">{{$network->name}}</option>
@@ -58,7 +58,7 @@
                     @foreach ($packages as $plan)
                     <div class="col-sm-12 col-lg-4 mb-3">
                         <div class="form-check option-block">
-                            <input class="form-check-input" type="radio" name="load" value="{{$plan->id}}">
+                            <input class="form-check-input" type="radio" name="package" value="{{$plan->id}}">
                             <label class="form-check-label" for="load">
                                 <span class="title">{{ $plan->name }}</span>
                                 <span class="description">{{ $plan->description }}</span>
@@ -71,7 +71,7 @@
                     @foreach ($amounts as $plan)
                     <div class="col-sm-12 col-lg-4 mb-3">
                         <div class="form-check option-block-amount">
-                            <input class="form-check-input" type="radio" name="load" value="{{$plan->id}}">
+                            <input class="form-check-input" type="radio" name="amount" value="{{$plan->id}}">
                             <label class="form-check-label" for="load">
                                 <span class="amounts">₱{{ $plan->peso }} | ฿{{ $plan->baht }}</span>
                             </label>
@@ -123,15 +123,41 @@
 
             <div class="mb-3 mt-3">
                 <label for="formFile" class="form-label-text">Transaction Receipt</label>
-                <input name="transaction_receipt" class="form-control " type="file" id="formFile">
+                <input name="transaction_receipt" class="form-control " type="file" id="formFile" required>
             </div>
 
-            <button type="submit" class="btn custom-btn gold mx-auto mt-5">Request load</button>
+            <button id="submitBtn" type="submit" class="btn custom-btn gold mx-auto mt-5">Request load</button>
         </div>
     </form>
 </section>
 
 <script>
+
+   document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Get form data
+        var formData = new FormData(this);
+
+        // Send form data using AJAX
+        $.ajax({
+            url: "{{ route('request') }}",
+            type: "POST",
+            data: formData,
+            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+            contentType: false,  // Set contentType to false, as FormData already encodes the data
+            success: function(response) {
+                // Handle the response
+                $('#result').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX request failed:', error);
+            }
+        });
+    });
+});
+
     let selectedNetwork = null;
     var appUrl = document.querySelector('meta[name="app-url"]').getAttribute('content');
 
@@ -182,7 +208,16 @@
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                console.log(response);
+                if (response.exist === false) {
+                    console.log('false');
+                // If email exists, hide the credit option
+                $('#paymentTypes option[value="credit"]').hide();
+                } else {
+                    console.log('true');
+
+                // If email doesn't exist, show the credit option
+                $('#paymentTypes option[value="credit"]').show();
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error(textStatus, errorThrown);

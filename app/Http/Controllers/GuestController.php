@@ -9,6 +9,8 @@ use App\Models\Network;
 use App\Models\Package;
 use App\Models\Amount;
 use App\Models\Client;
+use App\Models\Load;
+
 
 class GuestController extends Controller
 {
@@ -61,6 +63,24 @@ class GuestController extends Controller
             'network' => 'required',
             'transaction_receipt' => 'required|file',
         ]);
+
+        $load = new Load;
+        $load->name = $request->full_name;
+        $load->number = $request->phone_number;
+        $load->email = $request->email;
+        $load->type = $request->load_types;
+        $load->mop = $request->payment_method;
+        $load->network_id = $request->network;
+        $load->amount_id = $request->amount ?? null;
+        $load->package_id = $request->package ?? null;
+
+        if ($request->hasFile('transaction_receipt')) {
+            $imagePath = $request->file('transaction_receipt')->store('receipts', 'public');
+            $load->image = $imagePath;
+        }
+        $load->save();
+
+        return $load;
 
     }
 
@@ -563,12 +583,20 @@ class GuestController extends Controller
 
         $paymentTypes = [
             [
-                'name' => 'Cash',
-                'value' => 'cash',
+                'name' => 'Credit',
+                'value' => 'credit',
             ],
             [
-                'name' => 'Debit',
-                'value' => 'debit',
+                'name' => 'GCASH',
+                'value' => 'gcash',
+            ],
+            [
+                'name' => 'BDO',
+                'value' => 'bdo',
+            ],
+            [
+                'name' => 'Bpi',
+                'value' => 'bpi',
             ],
         ];
 

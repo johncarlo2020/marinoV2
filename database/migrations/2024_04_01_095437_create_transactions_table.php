@@ -31,7 +31,6 @@ class CreateTransactionsTable extends Migration
                 ->references('id')->on('shifts')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-        
         });
     }
 
