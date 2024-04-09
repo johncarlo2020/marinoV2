@@ -59,10 +59,10 @@
             <div class="best-deals">
                 <div id="packagesList" class="row mt-2 d-none">
                     @foreach ($packages as $plan)
-                    <div class="col-sm-12 col-lg-4 mb-3">
-                        <div class="form-check option-block">
-                            <input class="form-check-input" type="radio" name="load" value="{{$plan->id}}">
-                            <label class="form-check-label" for="load">
+                    <div class="col-sm-12 col-lg-4 mb-3 option-container">
+                        <div class="form-check">
+                            <label class="form-check-label option-block" for="plan{{$plan->id}}">
+                                <input class="form-check-input" type="radio" name="load" id="plan{{$plan->id}}" value="{{$plan->id}}">
                                 <span class="title">{{ $plan->name }}</span>
                                 <span class="description">{{ $plan->description }}</span>
                             </label>
@@ -73,9 +73,9 @@
                 <div id="amountsList" class="row mt-2 d-none">
                     @foreach ($amounts as $plan)
                     <div class="col-sm-12 col-lg-4 mb-3">
-                        <div class="form-check option-block-amount">
-                            <input class="form-check-input" type="radio" name="load" value="{{$plan->id}}">
-                            <label class="form-check-label" for="load">
+                        <div class="form-check">
+                            <label class="form-check-label option-block" for="load{{$plan->id}}">
+                                <input class="form-check-input" type="radio" name="load" id="load{{$plan->id}}" value="{{$plan->id}}">
                                 <span class="amounts">₱{{ $plan->peso }} | ฿{{ $plan->baht }}</span>
                             </label>
                         </div>
@@ -120,6 +120,18 @@
                             </li>
                             @endforeach
                         </ul>
+                    </div>
+                </div>
+                <div class="payment-options mt-4">
+                    <div class="row">
+                        <div class="col-12 col">
+                            <h6>Note</h6>
+                            <ul>
+                                <li>If GCash is unavailable and payment is made at 7/11, kindly include an additional 2%
+                                    to the total amount to cover associated fees, as this amount is deducted from my
+                                    end. Thank you.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
