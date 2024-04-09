@@ -28,7 +28,7 @@
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Payment method</span>
                     <select id="paymentTypes" name="payment_method" class="form-select"
-                        aria-label="Select payment method" disabled required>
+                        aria-label="Select payment method"  required>
                         @foreach ($paymentTypes as $type )
                         <option value="{{$type['value']}}">{{$type['name']}}</option>
                         @endforeach
@@ -62,7 +62,7 @@
                     <div class="col-sm-12 col-lg-4 mb-3 option-container">
                         <div class="form-check">
                             <label class="form-check-label option-block" for="plan{{$plan->id}}">
-                                <input class="form-check-input" type="radio" name="load" id="plan{{$plan->id}}" value="{{$plan->id}}">
+                                <input class="form-check-input" type="radio" name="package" id="plan{{$plan->id}}" value="{{$plan->id}}">
                                 <span class="title">{{ $plan->name }}</span>
                                 <span class="description">{{ $plan->description }}</span>
                             </label>
@@ -75,7 +75,7 @@
                     <div class="col-sm-12 col-lg-4 mb-3">
                         <div class="form-check">
                             <label class="form-check-label option-block" for="amount{{$plan->id}}">
-                                <input class="form-check-input" type="radio" name="load" id="load{{$plan->id}}" value="{{$plan->id}}">
+                                <input class="form-check-input" type="radio" name="amount" id="load{{$plan->id}}" value="{{$plan->id}}">
                                 <span class="amounts">₱{{ $plan->peso }} | ฿{{ $plan->baht }}</span>
                             </label>
                         </div>
@@ -224,16 +224,16 @@
             },
             success: function(response) {
                 //remove disable to select load types
-                let isTrue = response.exist;
-                document.getElementById('paymentTypes').removeAttribute('disabled');
+                if (response.exist === false) {
+                    console.log('false');
+                // If email exists, hide the credit option
+                $('#paymentTypes option[value="credit"]').hide();
+                } else {
+                    console.log('true');
 
-                if(!isTrue){
-                    return;
+                // If email doesn't exist, show the credit option
+                $('#paymentTypes option[value="credit"]').show();
                 }
-
-                // pre select first option in paymentTypes and disable to second option
-                document.getElementById('paymentTypes').selectedIndex = 1;
-                document.getElementById('paymentTypes').options[1].setAttribute('disabled', 'disabled');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error(textStatus, errorThrown);
