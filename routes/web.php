@@ -13,9 +13,7 @@ use App\Http\Controllers\GuestController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -27,11 +25,11 @@ Route::view('profile', 'profile')
     Livewire::setScriptRoute(function ($handle) {
         return Route::get('/marinoV2/public/livewire/livewire.js', $handle);
     });
-    
+
     Livewire::setUpdateRoute(function ($handle) {
         return Route::post('/marinoV2/public/livewire/update', $handle);
     });
-    
+
 require __DIR__.'/auth.php';
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
