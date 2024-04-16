@@ -142,6 +142,16 @@ class GuestController extends Controller
                 'page' => 'About us',
                 'child' => false,
             ],
+            [
+                'linkUrl' => route('login'),
+                'page' => 'Login',
+                'child' => false,
+            ],
+            [
+                'linkUrl' => route('register'),
+                'page' => 'Register',
+                'child' => false,
+            ],
         ];
 
         // Modify the "Products" link without looping through the array

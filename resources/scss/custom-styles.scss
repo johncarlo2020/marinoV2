@@ -157,6 +157,8 @@ body {
               font-size: $font-extra-small;
               border-right: 2px solid $gold-500;
               padding-right: 5px;
+              display: flex;
+              gap: 10px;
 
               &:last-child {
                   border: none;
@@ -959,6 +961,10 @@ input,select,option {
         font-size: $font-small;
         color: $silver-500;
     }
+}
+
+.collapse {
+    visibility: visible;
 }
 
 
