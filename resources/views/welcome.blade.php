@@ -1,19 +1,55 @@
-@extends('layouts.app')
 
-@section('title', 'home')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="app-url" content="{{ env('APP_URL') }}">
 
-@section('content')
+        <title>@yield('title')</title>
 
-@include('section.hero')
+        <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
 
-@include('section.servicess')
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-@include('section.banner')
+        <!-- Add Slick Carousel CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
-@include('section.products', ['heading' => $pruductsHeading,'description' => $productSectionDescription])
+        <!-- Add Slick Carousel Theme CSS (optional) -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
-@include('section.requestLoad',['heading' => 'Request Load'],['description' => 'To complete your request, please ensure that all fields are filled out. Your cooperation in providing all necessary information is greatly appreciated and will help expedite the process. Thank you.'])
+        @vite(['resources/css/app.css','resources/scss/app.scss', 'resources/js/app.js'])
 
-@include('section.testimonial',['heading' => $testimonialHeading])
+    </head>
+    <body>
+        @section('title', 'home')
 
-@endsection
+        @include('layouts.header')
+
+        @section('content')
+
+        @include('section.hero')
+
+        @include('section.servicess')
+
+        @include('section.banner')
+
+        @include('section.products', ['heading' => $pruductsHeading,'description' => $productSectionDescription])
+
+        @include('section.requestLoad',['heading' => 'Request Load'],['description' => 'To complete your request, please ensure that all fields are filled out. Your cooperation in providing all necessary information is greatly appreciated and will help expedite the process. Thank you.'])
+
+        @include('section.testimonial',['heading' => $testimonialHeading])
+
+        @include('layouts.footer')
+
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+    </body>
+</html>

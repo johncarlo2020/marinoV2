@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuestController;
+
+use App\Http\Controllers\ProfileController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,13 +17,15 @@ use App\Http\Controllers\GuestController;
 */
 
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
     Livewire::setScriptRoute(function ($handle) {
         return Route::get('/marinoV2/public/livewire/livewire.js', $handle);
@@ -30,7 +35,7 @@ Route::view('profile', 'profile')
         return Route::post('/marinoV2/public/livewire/update', $handle);
     });
 
-require __DIR__.'/auth.php';
+
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 Route::get('/about-us', [GuestController::class, 'aboutUs'])->name('about-us');
@@ -39,3 +44,5 @@ Route::get('/clients', [GuestController::class, 'clients'])->name('clients');
 Route::get('/contact', [GuestController::class, 'contact'])->name('contact');
 Route::post('/check', [GuestController::class, 'checkEmail'])->name('check-email');
 Route::post('/request', [GuestController::class, 'requestLoad'])->name('request');
+
+require __DIR__.'/auth.php';
