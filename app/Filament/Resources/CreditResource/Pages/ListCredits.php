@@ -13,17 +13,19 @@ class ListCredits extends ListRecords
 
     protected static string $resource = CreditResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
-
     protected function getHeaderWidgets(): array
     {
         return [
             CreditResource\Widgets\CreditOverview::class,
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            \EightyNine\ExcelImport\ExcelImportAction::make()
+                ->color("primary"),
+            Actions\CreateAction::make(),
         ];
     }
 }

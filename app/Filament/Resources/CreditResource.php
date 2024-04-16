@@ -13,6 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+
 class CreditResource extends Resource
 {
     protected static ?string $model = Credit::class;
@@ -46,7 +49,7 @@ class CreditResource extends Resource
             Forms\Components\TextInput::make('due')
                 ->required()
                 ->maxLength(255),
-            Forms\Components\Select::make('Shift')
+            Forms\Components\Select::make('status')
                 ->label('Status')
                 ->options([
                     'Paid'   => 'Paid',
@@ -82,6 +85,11 @@ class CreditResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')->fromTable(),
+                ])
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
