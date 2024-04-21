@@ -7,12 +7,13 @@
             <div class="balance-content">
                 <img src="{{ asset('images/icons/solar_wallet-bold.svg')}}" alt="">
                 <span class="balance-text">
-                    <span class="balance">$ 121232 23</span>
+                    <span class="balance">{{ Auth::user()->balance }} baht</span>
                     <span class="sub-text"><small>Current balance on wallet</small></span>
                 </span>
             </div>
         </div>
     </div>
+    
     <div class="container mt-2">
         <div class="gap-2 p-2 row">
             <div class="p-0 col">

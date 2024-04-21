@@ -9,6 +9,7 @@
         "eightynine/filament-excel-import": "^3.0",
         "filament/actions": "3.2",
         "filament/filament": "3.2",
+        "filament/notifications": "3.2",
         "filament/widgets": "3.2",
         "flowframe/laravel-trend": "^0.1.5",
         "guzzlehttp/guzzle": "^7.2",

@@ -39,6 +39,12 @@ class GuestController extends Controller
         return view('clients');
     }
 
+    public function dashboard() {
+        $this->sharedData();
+
+        return view('dashboard');
+    }
+
     public function contact() {
         $this->sharedData();
         return view('contact');
