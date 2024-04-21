@@ -37,6 +37,7 @@
                 {{ $slot }}
             </main>
         </div>
+        @include('components.topUpModal')
         <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <script src="{{ asset('js/app.js') }}"></script>
