@@ -13,7 +13,6 @@
             </div>
         </div>
     </div>
-
     <div class="container mt-2">
         <div class="gap-2 p-2 gap-md-3 row">
             <div class="p-0 col">
@@ -58,8 +57,8 @@
                     <span>-$23232</span>
                 </div>
             </div>
-
-
         </div>
     </div>
+    @include('components.topUpModal')
+    @include('components.LoadSelfModal')
 </x-app-layout>

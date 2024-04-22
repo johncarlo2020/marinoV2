@@ -45,9 +45,44 @@ function handleRadioButtonClick(radioButton) {
     selectedPlan.innerHTML = name;
 }
 
+function getSelectedPaymentTypes() {
+    const paymentTypes = document.getElementById('paymentTypes');
+    const paymentOption = document.getElementById('paymentOption');
+    paymentTypes.addEventListener('change', function() {
+      if(!paymentTypes.value || paymentTypes.value === 'credit'){
+        paymentOption.value = '';
+        paymentOption.setAttribute('disabled', 'disabled');
+        return;
+        }
+
+        const options = paymentOption.querySelectorAll('option');
+        options.forEach(option => {
+            if (option.dataset.type === paymentTypes.value || option.dataset.type === 'credit') {
+                option.classList.remove('d-none');
+            } else {
+                option.classList.add('d-none');
+            }
+        });
+
+        paymentOption.removeAttribute('disabled');
+    });
+}
+
+function checkConfirmation(checkbox) {
+    const nearestSubmitButton = checkbox.closest('form').querySelector('button[type="submit"]');
+    if (checkbox.checked && nearestSubmitButton) {
+        nearestSubmitButton.removeAttribute('disabled');
+    } else {
+        nearestSubmitButton.setAttribute('disabled', 'disabled');
+    }
+}
+
 handleLoadTypeChange();
+getSelectedPaymentTypes();
 
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.handleLoadTypeChange = handleLoadTypeChange;
 window.handleRadioButtonClick = handleRadioButtonClick;
+window.getSelectedPaymentTypes = getSelectedPaymentTypes;
+window.checkConfirmation = checkConfirmation;

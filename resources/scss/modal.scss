@@ -14,9 +14,16 @@
         padding: 10px 20px;
         @extend .custom-shadow;
         display: flex;
-        justify-content: end;
+        justify-content: space-between;
+        align-items: center;
+
+        p {
+            font-size: $font-medium;
+            font-weight: 600;
+        }
 
         .close-modal{
+            align-self: flex-end;
             width: 35px;
             height: 35px;
             font-size: 15px;
@@ -56,6 +63,22 @@
     }
     .main-content {
         position: relative;
+
+        .confirm-check {
+        padding-left: 10px;
+            label {
+                font-size: 13px;
+                color: $red-500;
+                display: inline !important;
+                margin-left: 5px;
+            }
+        }
+
+        #paymentOption {
+            option span {
+               font-weight: 600;
+            }
+        }
 
         span.plans-heading {
             display: inline-flex !important;

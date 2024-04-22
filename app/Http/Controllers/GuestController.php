@@ -10,6 +10,7 @@ use App\Models\Package;
 use App\Models\Amount;
 use App\Models\Client;
 use App\Models\Load;
+use App\Models\Mop;
 
 
 class GuestController extends Controller
@@ -41,8 +42,9 @@ class GuestController extends Controller
 
     public function dashboard() {
         $this->sharedData();
-
-        return view('dashboard');
+        $mops = Mop::get();
+        //conver to compact
+        return view('dashboard', compact('mops'));
     }
 
     public function contact() {
