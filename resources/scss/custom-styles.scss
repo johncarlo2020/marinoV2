@@ -971,6 +971,14 @@ input,select,option {
     visibility: visible;
 }
 
+.small-text {
+    font-size: $font-small !important;
+}
+.text-bold {
+    font-weight: 600 !important;
+    color: #525252 !important;
+}
+
 
 
 

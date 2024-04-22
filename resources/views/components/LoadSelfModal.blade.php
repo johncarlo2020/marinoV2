@@ -1,6 +1,6 @@
 <div id="loadSelf" class="top-modal custom-modal">
     <div class="modal-head w-100">
-        <button class="close-modal" onclick="closeModal('loadSelf')"><i class="fa-solid fa-xmark"></i></button>
+       <p><i class="fa-solid fa-sim-card"></i> New load</p> <button class="close-modal" onclick="closeModal('loadSelf')"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="p-3 main-content">
         <div class="row">
@@ -16,13 +16,13 @@
                 <input name="full_name" type="text" class="form-control" placeholder="Example : +6390000000"
                     aria-label="Full name" required>
             </div>
-            <div class="col-sm-12 col-lg-6 input-text">
+            {{-- <div class="col-sm-12 col-lg-6 input-text">
                 <span class="">Payment method</span>
                 <select id="paymentTypes" name="payment_method" class="form-select"
                     aria-label="Select payment method"  required>
                     <option value="1">Paypal</option>
                 </select>
-            </div>
+            </div> --}}
             <div class="col-sm-12 col-lg-6 input-text">
                 <span class="">Load type</span>
                 <select id="loadType" name="payment_method" class="form-select"
@@ -54,10 +54,12 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-2 mb-3">
-                <label for="formFile" class="form-label-text">Transaction Receipt</label>
-                <input name="transaction_receipt" class="form-control " type="file" id="formFile" required>
-            </div>
+        </div>
+        <div class="mt-6 col-12 input-text confirm-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              I confirm that the information provided is accurate
+            </label>
         </div>
         <div class="mt-3 send-request">
             <div class="col">
