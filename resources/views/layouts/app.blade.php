@@ -20,6 +20,7 @@
         @vite(['resources/css/app.css','resources/scss/app.scss', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased dashboard-container">
+        <div id="modalback"></div>
         <div class="min-h-screen ">
             @include('layouts.navigation')
 
@@ -38,6 +39,7 @@
             </main>
         </div>
         @include('components.topUpModal')
+        @include('components.LoadSelfModal')
         <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <script src="{{ asset('js/app.js') }}"></script>
