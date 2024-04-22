@@ -13,9 +13,9 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container mt-2">
-        <div class="gap-2 p-2 row">
+        <div class="gap-2 p-2 gap-md-3 row">
             <div class="p-0 col">
                 <button class="tile-btn" onclick="openModal('topUpModal')">
                     <i class="fa-solid fa-circle-plus"></i> <span class="title">Top up</span>
@@ -23,7 +23,7 @@
                 </button>
             </div>
             <div class="p-0 col">
-                <button class="tile-btn">
+                <button class="tile-btn" onclick="openModal('loadSelf')">
                     <i class="fa-solid fa-sim-card"></i> <span class="title">Load self</span>
                 </button>
             </div>

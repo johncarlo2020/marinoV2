@@ -21,7 +21,7 @@
                 <input name="transaction_receipt" class="form-control " type="file" id="formFile" required>
             </div>
         </div>
-        <div class="mt-auto send-request">
+        <div class="mt-6 send-request">
             <div class="col">
                 <button class="py-2 btn btn-primary w-100">Send request <i class="fa-solid fa-paper-plane"></i></button>
             </div>

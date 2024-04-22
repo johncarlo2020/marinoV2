@@ -877,7 +877,11 @@ input,select,option {
 }
 
 .input-text {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    // in small screen decrease the margin
+    @media (max-width: 575.98px) {
+        margin-bottom: 10px;
+    }
     span {
         margin-left: auto;
         padding-bottom: 5px;
