@@ -39,24 +39,29 @@
                     <a class="see-all-btn" href="">See all</a>
                 </div>
             </div>
+                @foreach ( $histories as $history)
+
             <div class="table-row-container">
+                    
                 <div class="details">
                     <div class="type">
                         <i class="fa-solid fa-plus"></i>
                     </div>
                     <div class="text">
                         <span>
-                            Top up
+                            {{$history->event}}
                         </span>
                         <span class="date d-block">
-                            December 12, 2021
+                            {{$history->created_at}}
                         </span>
                     </div>
                 </div>
                 <div class="amount-row">
-                    <span>-$23232</span>
+                    <span>{{$history->amount}}</span>
                 </div>
             </div>
+                @endforeach
+
         </div>
     </div>
     @include('components.topUpModal')

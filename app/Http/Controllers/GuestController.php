@@ -10,6 +10,8 @@ use App\Models\Package;
 use App\Models\Amount;
 use App\Models\Client;
 use App\Models\Load;
+use App\Models\History;
+
 use App\Models\Mop;
 
 
@@ -43,8 +45,10 @@ class GuestController extends Controller
     public function dashboard() {
         $this->sharedData();
         $mops = Mop::get();
+
+        $histories = History::where('user_id',auth()->id())->get();
         //conver to compact
-        return view('dashboard', compact('mops'));
+        return view('dashboard', compact('mops','histories'));
     }
 
     public function contact() {

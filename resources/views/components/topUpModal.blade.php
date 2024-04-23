@@ -4,11 +4,12 @@
             onclick="closeModal('topUpModal')"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="p-3 main-content">
-        <form action="">
+        <form id="topupForm" enctype="multipart/form-data">
+        @csrf
             <div class="row">
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Amount</span>
-                    <input name="full_name" type="text" class="form-control"
+                    <input name="amount" type="text" class="form-control"
                         placeholder="Please note that the currency is on THB  ฿" aria-label="Full name" required>
                 </div>
                 <div class="col-sm-12 col-lg-6 input-text">
@@ -56,10 +57,37 @@
             </div>
             <div class="mt-3 send-request">
                 <div class="col">
-                    <button disabled type="submit" class="py-2 btn btn-primary w-100">Send request <i
+                    <button  type="submit" class="py-2 btn btn-primary w-100">Send request <i
                         class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('topupForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get form data
+            var formData = new FormData(this);
+
+            // Send form data using AJAX
+            $.ajax({
+                url: "{{ route('topup') }}",
+                type: "POST",
+                data: formData,
+                processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+                contentType: false,  // Set contentType to false, as FormData already encodes the data
+                success: function(response) {
+                    // Handle the response
+                    
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', error);
+                }
+            });
+        });
+    });
+</script>

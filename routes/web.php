@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\TopUpController;
+
 
 use App\Http\Controllers\ProfileController;
 
@@ -46,5 +48,7 @@ Route::get('/clients', [GuestController::class, 'clients'])->name('clients');
 Route::get('/contact', [GuestController::class, 'contact'])->name('contact');
 Route::post('/check', [GuestController::class, 'checkEmail'])->name('check-email');
 Route::post('/request', [GuestController::class, 'requestLoad'])->name('request');
+Route::post('/topup', [TopUpController::class, 'topup'])->middleware(['auth', 'verified'])->name('topup');
+
 
 require __DIR__.'/auth.php';

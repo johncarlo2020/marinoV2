@@ -63,7 +63,7 @@
         </div>
         <div class="mt-3 send-request">
             <div class="col">
-                <button class="py-2 btn btn-primary w-100">Send request <i class="fa-solid fa-paper-plane"></i></button>
+                <button class="py-2 btn btn-primary w-100">Load Now <i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>

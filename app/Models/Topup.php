@@ -5,17 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class History extends Model
+class Topup extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'event',
         'amount',
-        'number',
-        'status',
         'mop',
+        'status',
+        'receipt',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
