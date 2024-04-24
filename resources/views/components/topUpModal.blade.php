@@ -43,7 +43,7 @@
                             unavailable and payment is made at 7/11, kindly include an additional 2% to the total amount
                             to cover associated fees, as this amount is deducted from my end. Thank you.</span></p>
                 </div>
-                <div class="mt-2 mb-3">
+                <div id="mediaInputContainer" class="mt-2 mb-3">
                     <label for="formFile" class="form-label-text">Transaction Receipt</label>
                     <input name="transaction_receipt" class="form-control " type="file" id="formFile" required>
                 </div>
@@ -57,37 +57,10 @@
             </div>
             <div class="mt-3 send-request">
                 <div class="col">
-                    <button  type="submit" class="py-2 btn btn-primary w-100">Send request <i
+                    <button type="submit" class="py-2 btn btn-primary w-100" disabled >Send request <i
                         class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-<script>
-   document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('topupForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Get form data
-            var formData = new FormData(this);
-
-            // Send form data using AJAX
-            $.ajax({
-                url: "{{ route('topup') }}",
-                type: "POST",
-                data: formData,
-                processData: false,  // Prevent jQuery from automatically transforming the data into a query string
-                contentType: false,  // Set contentType to false, as FormData already encodes the data
-                success: function(response) {
-                    // Handle the response
-                    
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX request failed:', error);
-                }
-            });
-        });
-    });
-</script>

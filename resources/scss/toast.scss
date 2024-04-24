@@ -1,0 +1,19 @@
+#toastPlacement {
+    top: 15px;
+    right: 15px;
+    z-index: 9999;
+
+    #toastIcon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: rgb(170, 170, 170);
+        display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+        top: 15px;
+        right: 50%;
+        transform: translateX(50%);
+    }
+}
