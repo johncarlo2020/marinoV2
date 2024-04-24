@@ -22,6 +22,7 @@
     <body class="font-sans antialiased dashboard-container">
         <div id="modalback"></div>
         <div class="min-h-screen ">
+            @include('components.toast')
             @include('layouts.navigation')
 
             <!-- Page Heading -->

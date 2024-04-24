@@ -39,29 +39,35 @@
                     <a class="see-all-btn" href="">See all</a>
                 </div>
             </div>
+            <div class="table-body-container">
                 @foreach ( $histories as $history)
 
-            <div class="table-row-container">
-                    
-                <div class="details">
-                    <div class="type">
-                        <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <div class="text">
-                        <span>
-                            {{$history->event}}
-                        </span>
-                        <span class="date d-block">
-                            {{$history->created_at}}
-                        </span>
-                    </div>
-                </div>
-                <div class="amount-row">
-                    <span>{{$history->amount}}</span>
-                </div>
-            </div>
-                @endforeach
+                <div class="table-row-container">
 
+                    <div class="details">
+                        <div class="type">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                        <div class="text">
+                            <span>
+                                {{$history->event}}
+                            </span>
+                            <span class="date d-block">
+                                {{$history->created_at}}
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                {{$history->number}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="amount-row">
+                        <span>{{$history->amount}}</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
         </div>
     </div>
     @include('components.topUpModal')
