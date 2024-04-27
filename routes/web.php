@@ -49,6 +49,8 @@ Route::get('/contact', [GuestController::class, 'contact'])->name('contact');
 Route::post('/check', [GuestController::class, 'checkEmail'])->name('check-email');
 Route::post('/request', [GuestController::class, 'requestLoad'])->name('request');
 Route::post('/topup', [TopUpController::class, 'topup'])->middleware(['auth', 'verified'])->name('topup');
+Route::post('/loadNow', [loadNowController::class, 'loadNow'])->middleware(['auth', 'verified'])->name('loadNow');
+
 
 
 require __DIR__.'/auth.php';

@@ -67,6 +67,11 @@ class GuestController extends Controller
         return response()->json(['exist' => $client ? true : false]);
     }
 
+    public function loadNow(Request $request)
+    {
+        return 'test';
+    }
+
     public function requestLoad (Request $request) {
 
         $validatedData = $request->validate([
