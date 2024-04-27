@@ -20,6 +20,15 @@ body {
     }
 }
 
+.pill {
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+    margin: 0;
+}
+
 .icon-nav{
     display: flex;
     align-items: center;
@@ -890,9 +899,24 @@ input,select,option {
         font-weight: 400;
     }
     input {
+        font-size:$font-small ;
         &::placeholder {
             color: $silver-500;
             font-size: $font-small;
+        }
+    }
+
+    .personal-number {
+        #personalNumber:checked + .number-pill {
+            @extend .pill;
+            @extend .button-shadow;
+            background: $gold-500;
+        }
+
+        .number-pill {
+            @extend .pill;
+            @extend .button-shadow;
+            background: $silver-400;
         }
     }
 
@@ -977,6 +1001,10 @@ input,select,option {
 .text-bold {
     font-weight: 600 !important;
     color: #525252 !important;
+}
+
+.error-message {
+    margin-top: 5px;
 }
 
 

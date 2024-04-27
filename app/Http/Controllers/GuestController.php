@@ -48,9 +48,10 @@ class GuestController extends Controller
         $networks = Network::get();
         $amounts = Amount::get();
         $histories = History::where('user_id',auth()->id())->get();
+        $number = auth()->user()->number;
         $packages = Package::get();
         //conver to compact
-        return view('dashboard', compact('mops','histories','networks','amounts','packages'));
+        return view('dashboard', compact('mops','histories','networks','amounts','packages','number'));
     }
 
     public function contact() {

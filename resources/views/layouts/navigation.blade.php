@@ -41,9 +41,11 @@
                             </span>
                         </div>
                     </div>
-                    <ul class="px-3 py-1 m-0 links">
+                    <ul class="px-3 py-2 m-0 links">
                         <li><i class="fa-regular fa-user"></i><a class="ml-2 dropdown-item"
                                 href="{{route('profile.edit')}}"> {{ __('Profile') }}</a></li>
+                                <li><i class="fa-regular fa-user"></i><a class="ml-2 dropdown-item"
+                                    href="{{route('profile.edit')}}"> History</a></li>
                     </ul>
                     <div class="px-3 py-2 log-out border-top">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
