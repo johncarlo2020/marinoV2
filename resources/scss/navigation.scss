@@ -57,9 +57,10 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            min-width: 180px;
+            min-width: 140px;
             position: relative;
             cursor: pointer;
+
 
             .user-name {
                 font-size: 15px;
@@ -90,6 +91,21 @@
 
             &.open {
                 display: block;
+            }
+
+            .links {
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+                gap: 10px;
+                align-items: center;
+                li {
+                    width: 100%;
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    text-align: left;
+                }
             }
 
             .details {
