@@ -10,15 +10,13 @@ class Load extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
+        'user_id',
         'number',
         'mop',
         'type',
         'network_id',
         'amount_id',
         'package_id',
-        'image',
     ];
 
     public function amount()

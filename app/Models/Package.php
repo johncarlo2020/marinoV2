@@ -14,5 +14,6 @@ class Package extends Model
         'description',
         'code',
         'php_amount',
+        'baht',
     ];
 }

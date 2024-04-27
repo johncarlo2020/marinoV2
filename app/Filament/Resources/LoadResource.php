@@ -7,7 +7,6 @@ use App\Filament\Resources\LoadResource\RelationManagers;
 use App\Models\Load;
 use App\Models\Transaction;
 use App\Models\Shift;
-
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

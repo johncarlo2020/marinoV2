@@ -35,6 +35,9 @@ class PackageResource extends Resource
                 Forms\Components\TextInput::make('php_amount')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('baht')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -49,6 +52,8 @@ class PackageResource extends Resource
                 Tables\Columns\TextColumn::make('code')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('php_amount')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('baht')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
