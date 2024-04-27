@@ -8,7 +8,10 @@
                 <span class="">Network</span>
                 <select id="networkType" name="payment_method" class="form-select"
                     aria-label="Select payment method"  required>
-                    <option value="1">Dic</option>
+                     @foreach ($networks as $network)
+                        <option value="{{$network->id}}">{{$network->name}}</option>
+                        
+                    @endforeach
                 </select>
             </div>
             <div class="col-sm-12 col-lg-6 input-text">
@@ -35,23 +38,25 @@
             <div id="amountAndPackage" class="col-12 input-text d-none">
                 <span class="plans-heading d-none"><span>Plans</span><span id="selectedPlan" class="selected-value"></span></span>
                 <div id="planContainer" class="plans d-none">
+                   @foreach ($amounts as $amount)
                     <div class="plan">
-                        <input type="radio" id="plan1" name="plan" value="1" data-name="$70 | B10" onclick="handleRadioButtonClick(this)">
-                        <label class="amount-btn" for="plan1">$70 | B10</label>
+                        <input type="radio" id="plan{{$amount->id}}" name="amount" value="{{$amount->id}}" data-name="P{{$amount->peso}} | B{{$amount->baht}}" onclick="handleRadioButtonClick(this)">
+                        <label class="amount-btn" for="plan{{$amount->id}}">P{{$amount->peso}} | B{{$amount->baht}}</label>
                     </div>
-                    <div class="plan">
-                        <input type="radio" id="plan2" name="plan" data-name="$70 | B11" value="2" onclick="handleRadioButtonClick(this)">
-                        <label class="amount-btn" for="plan2">$70 | B11</label>
-                    </div>
+                   @endforeach
+                    
                 </div>
                 <div id="packageContainer" class="plans package-plans d-none">
+                @foreach ($packages as $package)
                     <div class="plan">
-                        <input type="radio" id="package1" name="plan" data-name="100 2 days 1gig" value="1" onclick="handleRadioButtonClick(this)">
-                        <label class="amount-btn package" for="package1">
-                            <span class="package-name">100 2 days 1gig</span>
-                            <span class="description">Lorem ipsum dolor sit amet</span>
+                        <input type="radio" id="package{{$package->id}}" name="plan" data-name="{{$package->name}}" value="{{$package->id}}" onclick="handleRadioButtonClick(this)">
+                        <label class="amount-btn package" for="package{{$package->id}}">
+                            <span class="package-name">{{$package->name}}</span>
+                            <span class="description">{{$package->description}}</span>
                         </label>
                     </div>
+                @endforeach
+                    
                 </div>
             </div>
         </div>

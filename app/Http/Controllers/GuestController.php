@@ -45,10 +45,12 @@ class GuestController extends Controller
     public function dashboard() {
         $this->sharedData();
         $mops = Mop::get();
-
+        $networks = Network::get();
+        $amounts = Amount::get();
         $histories = History::where('user_id',auth()->id())->get();
+        $packages = Package::get();
         //conver to compact
-        return view('dashboard', compact('mops','histories'));
+        return view('dashboard', compact('mops','histories','networks','amounts','packages'));
     }
 
     public function contact() {
