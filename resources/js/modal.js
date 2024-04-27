@@ -1,4 +1,8 @@
 const selectedPlan = document.getElementById("selectedPlan");
+const loadType = document.getElementById("loadType");
+const amountAndPackage = document.getElementById("amountAndPackage");
+const planContainer = document.getElementById("planContainer");
+const packageContainer = document.getElementById("packageContainer");
 
 function openModal(id) {
     const modal = document.getElementById(id);
@@ -6,38 +10,44 @@ function openModal(id) {
 }
 
 function closeModal(id) {
+    //reset form
     const modal = document.getElementById(id);
     modal.classList.remove("show");
+    const form = modal.querySelector("form");
+    selectedPlan.classList.add("d-none");
+    // find the type submit button and disable it
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.setAttribute("disabled", "disabled");
+    form.reset();
 }
 
 function handleLoadTypeChange() {
-    const amountAndPackage = document.getElementById("amountAndPackage");
-    const planContainer = document.getElementById("planContainer");
-    const packageContainer = document.getElementById("packageContainer");
-
-    var loadType = document.getElementById("loadType");
+    handleLoadTypeSelection(loadType.value);
     loadType.addEventListener("change", function () {
-        selectedPlan.classList.add("d-none");
-        if (loadType.value === "amount") {
-            amountAndPackage.classList.remove("d-none");
-            planContainer.classList.remove("d-none");
-            packageContainer.classList.add("d-none");
-        } else if (loadType.value === "package") {
-            amountAndPackage.classList.remove("d-none");
-            packageContainer.classList.remove("d-none");
-            planContainer.classList.add("d-none");
-        } else {
-            amountAndPackage.classList.add("d-none");
-            planContainer.classList.add("d-none");
-            packageContainer.classList.add("d-none");
-        }
+        handleLoadTypeSelection(loadType.value);
     });
+}
+
+function handleLoadTypeSelection(value) {
+    selectedPlan.classList.add("d-none");
+    if (value === "amount") {
+        amountAndPackage.classList.remove("d-none");
+        planContainer.classList.remove("d-none");
+        packageContainer.classList.add("d-none");
+    } else if (value === "package") {
+        amountAndPackage.classList.remove("d-none");
+        packageContainer.classList.remove("d-none");
+        planContainer.classList.add("d-none");
+    } else {
+        amountAndPackage.classList.add("d-none");
+        planContainer.classList.add("d-none");
+        packageContainer.classList.add("d-none");
+    }
 }
 
 function handleRadioButtonClick(radioButton) {
     //get data set name
     var name = radioButton.getAttribute("data-name");
-    console.log(name);
     //remove d-none class from selectedPlan
     selectedPlan.classList.remove("d-none");
     selectedPlan.innerHTML = name;
@@ -46,7 +56,7 @@ function handleRadioButtonClick(radioButton) {
 function getSelectedPaymentTypes() {
     const paymentTypes = document.getElementById("paymentTypes");
     const paymentOption = document.getElementById("paymentOption");
-    const mediaInputContainer = document.getElementById("mediaInputContainer");
+
     paymentTypes.addEventListener("change", function () {
         if (!paymentTypes.value || paymentTypes.value === "credit") {
             paymentOption.value = "";
@@ -81,6 +91,38 @@ function checkConfirmation(checkbox) {
     }
 }
 
+function displayError(message, inputName, type , form) {
+    var selectedElement = null;
+    // if element is inside form
+    //check if the element is a radio button , select or text input using name
+    if (type === "radio") {
+        selectedElement = form.querySelector(`input[name="${inputName}"]`);
+    } else if (type === "text") {
+        selectedElement = form.querySelector(`input[name="${inputName}"]`);
+    } else if (type === "select") {
+        selectedElement = form.querySelector(`select[name="${inputName}"]`);
+    }
+
+    console.log(selectedElement)
+
+    addErrorContainer(selectedElement, message);
+}
+
+function addErrorContainer(selectedElement, message) {
+   //find the nearest parent element with class input-text
+    const parentElement = selectedElement.closest(".input-text");
+
+    // add a div to it with class error-message
+    const errorContainer = document.createElement("div");
+    errorContainer.classList.add("error-message");
+    // add a span with class text-danger
+    const errorMessage = document.createElement("span");
+    errorMessage.classList.add("text-danger");
+    errorMessage.textContent = message;
+    errorContainer.appendChild(errorMessage);
+    parentElement.appendChild(errorContainer);
+}
+
 function handleTopUpFormSubmit(event) {
     document
         .getElementById("topupForm")
@@ -98,18 +140,132 @@ function handleTopUpFormSubmit(event) {
                     const { message, date } = response;
                     const convertedDate = new Date(date).toLocaleDateString();
                     closeModal("topUpModal");
-                    showToast( message,"Your request has been successfully submitted", "test", convertedDate);
+                    showToast(
+                        message,
+                        "Your request has been successfully submitted",
+                        "test",
+                        convertedDate
+                    );
                 },
                 error: function (xhr, status, error) {
                     console.error("AJAX request failed:", error);
                 },
             });
+        });
+}
+
+function handleNetworkChange() {
+    const network = document.getElementById("networkType");
+    const packageType = document.getElementById("packageType");
+
+    isLoadtypeDisable(network.value);
+
+    network.addEventListener("change", function () {
+        isLoadtypeDisable(network.value);
     });
+}
+
+function isLoadtypeDisable(id) {
+    if (id === "1") {
+        loadType.removeAttribute("disabled");
+        handleLoadTypeSelection(loadType.value);
+        return;
+    }
+    loadType.value = "amount";
+    loadType.disabled = "disabled";
+    handleLoadTypeSelection(loadType.value);
+}
+
+function addNumbereOfUser() {
+    const personalNumber = document.getElementById("personalNumber");
+    const number = document.getElementById("number");
+
+    //add event listener to personal number checkbox and log the checked state
+    personalNumber.addEventListener("change", function () {
+        if(!this.checked) {
+           number.value = null;
+           return;
+        }
+        number.value = personalNumber.dataset.number;
+    });
+}
+
+function loadSubmit(formData) {
+    //ajax request
+    $.ajax({
+        url: "load",
+        type: "POST",
+        data: formData,
+        processData: false, // Prevent jQuery from automatically transforming the data into a query string
+        contentType: false, // Set contentType to false, as FormData already encodes the data
+        success: function (response) {
+
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX request failed:", error);
+        },
+    });
+}
+
+function handleLoadSubmit(event) {
+
+    document
+        .getElementById("loadForm")
+        .addEventListener("submit", function (event) {
+            event.preventDefault();
+            const loadOption = ["amount", "plan"];
+            const form = this;
+
+            const validation = [
+                { name: "number", type: "text" },
+                { name: "payment_method", type: "select" },
+                { name: "amount", type: "radio" },
+                { name: "package", type: "radio" },
+            ];
+
+            var formData = new FormData(this);
+            var number = formData.get("number");
+            var payment_method = formData.get("payment_method");
+
+            var selectedLoad =
+                payment_method === "amount" ? loadOption[0] : loadOption[1];
+
+            var load = formData.get(selectedLoad);
+
+            validation.forEach((element) => {
+                if (!formData.get(element.name)) {
+                    if (element.name === loadType.value ) {
+                        displayError(
+                            "Please select an option",
+                            element.name,
+                            element.type,
+                            form
+                        );
+                        return;
+                    }
+
+                    if(element.name === "number") {
+                        displayError(
+                            "Please enter a valid number",
+                            element.name,
+                            element.type,
+                            form
+                        );
+                        return;
+                    }
+                }
+            });
+
+            loadSubmit(formData);
+        });
 }
 
 handleLoadTypeChange();
 getSelectedPaymentTypes();
 handleTopUpFormSubmit();
+handleLoadSubmit();
+handleNetworkChange();
+addNumbereOfUser();
 
 window.openModal = openModal;
 window.closeModal = closeModal;
@@ -118,3 +274,9 @@ window.handleRadioButtonClick = handleRadioButtonClick;
 window.getSelectedPaymentTypes = getSelectedPaymentTypes;
 window.checkConfirmation = checkConfirmation;
 window.handleTopUpFormSubmit = handleTopUpFormSubmit;
+window.handleLoadSubmit = handleLoadSubmit;
+window.handleNetworkChange = handleNetworkChange;
+window.isLoadtypeDisable = isLoadtypeDisable;
+window.displayError = displayError;
+window.addNumbereOfUser = addNumbereOfUser;
+window.addErrorContainer = addErrorContainer;

@@ -52,7 +52,7 @@
             <div class="mt-6 col-12 input-text confirm-check">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="checkConfirmation(this)">
                 <label class="form-check-label" for="flexCheckDefault">
-                    I confirm that the information provided is accurate
+                    <i class="fa-solid fa-circle-info"></i> I confirm that the information provided is accurate
                 </label>
             </div>
             <div class="mt-3 send-request">
