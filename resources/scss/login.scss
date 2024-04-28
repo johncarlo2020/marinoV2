@@ -1,0 +1,15 @@
+.login-contaniner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background: #f6f7f9;
+    .form {
+        @extend .button-shadow;
+        padding: 50px 30px 40px 30px;
+        min-width: 350px;
+        max-width: 500px;
+        border-radius: 8px;
+    }
+}
