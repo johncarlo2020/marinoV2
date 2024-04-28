@@ -27,8 +27,6 @@ function closeModal(id) {
 }
 
 function handleLoadTypeChange() {
-    console.log('asdas');
-
     handleLoadTypeSelection(loadType.value);
     loadType.addEventListener("change", function () {
         handleLoadTypeSelection(loadType.value);
@@ -265,15 +263,15 @@ function loadSubmit(formData) {
         processData: false,
         contentType: false,
         success: function (response) {
-           
+
             loader.classList.add("d-none");
             form.classList.remove("d-none");
             if(response.status == 'success')
             {
                 closeModal("loadSelf");
-    
+
                 const { message, date } = response;
-    
+
                 showToast(
                     message,
                     "Your load request has been successfully submitted",
@@ -281,9 +279,9 @@ function loadSubmit(formData) {
                     date
                 );
             }else if(response.status =='error'){
-                
+
                 const { message, date } = response;
-    
+
                 showToast(
                     message,
                     response.message,
@@ -291,7 +289,7 @@ function loadSubmit(formData) {
                     date
                 );
             }
-          
+
         },
         error: function (xhr, status, error) {
             console.error("AJAX request failed:", error);
@@ -393,7 +391,10 @@ function handleLoadSubmit(event) {
         });
 }
 
-if (window.location.pathname == 'dashboard') {
+const isDashBoard = document.getElementById("isDashBoard");
+
+// only call if dashboard
+if (isDashBoard) {
     handleLoadTypeChange();
     getSelectedPaymentTypes();
     handleTopUpFormSubmit();
@@ -401,9 +402,8 @@ if (window.location.pathname == 'dashboard') {
     handleNetworkChange();
     addNumbereOfUser();
     handleFileUpload();
+
 }
-
-
 
 window.openModal = openModal;
 window.closeModal = closeModal;

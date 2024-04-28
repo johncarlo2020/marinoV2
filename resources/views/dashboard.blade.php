@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="p-0 container-fluid">
+    <div id="isDashBoard" class="p-0 container-fluid">
         <div class="balance-section">
             <div class="switch-container">
 
