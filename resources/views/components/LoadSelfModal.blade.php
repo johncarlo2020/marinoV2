@@ -4,18 +4,13 @@
             onclick="closeModal('loadSelf')"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="p-3 main-content">
+        <div id="loader" class="loader-container d-none">
+            @include('components.processing')
+        </div>
         <form id="loadForm">
             <div class="row">
-                <div class="col-sm-12 col-lg-6 input-text">
-                    <span class="">Network</span>
-                    <select id="networkType" name="network" class="form-select" aria-label="Select payment method"
-                        required>
-                        @foreach ($networks as $network)
-                        <option value="{{$network->id}}">{{$network->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-12 col-lg-6 input-text">
+                @csrf
+                <div class="col-sm-12 col-lg-12 input-text">
                     <span class="plans-heading"><span class="p-0 d-block">Sim number #</span>
                         <div class="mb-1 personal-number">
                             <input type="checkbox" data-number="{{$number}}" class="btn-check" id="personalNumber"
@@ -26,7 +21,15 @@
                     <input id="number" name="number" type="text" class="form-control"
                         placeholder="Example : +6390000000" aria-label="number">
                 </div>
-
+                <div class="col-sm-12 col-lg-6 input-text">
+                    <span class="">Network</span>
+                    <select id="networkType" name="network" class="form-select" aria-label="Select payment method"
+                        required>
+                        @foreach ($networks as $network)
+                        <option value="{{$network->id}}">{{$network->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="col-sm-12 col-lg-6 input-text">
                     <span class="">Load type</span>
                     <select id="loadType" name="payment_method" class="form-select" aria-label="Select payment method"
