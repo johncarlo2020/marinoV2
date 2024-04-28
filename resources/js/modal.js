@@ -33,6 +33,17 @@ function handleLoadTypeChange() {
     });
 }
 
+function handleFileUpload() {
+    const formFile = document.getElementById("formFile");
+    const selectedFile = document.getElementById("selectedFile");
+
+    //add event listener to add the file name to the selectedfile
+    formFile.addEventListener("change", function () {
+        console.log(formFile.files[0].name);
+        selectedFile.textContent = formFile.files[0].name;
+    });
+}
+
 function handleLoadTypeSelection(value) {
     selectedPlan.classList.add("d-none");
     if (value === "amount") {
@@ -61,11 +72,13 @@ function handleRadioButtonClick(radioButton) {
 function getSelectedPaymentTypes() {
     const paymentTypes = document.getElementById("paymentTypes");
     const paymentOption = document.getElementById("paymentOption");
+    const mediaInputContainer = document.getElementById("mediaInputContainer");
 
     paymentTypes.addEventListener("change", function () {
         if (!paymentTypes.value || paymentTypes.value === "credit") {
             paymentOption.value = "";
             paymentOption.setAttribute("disabled", "disabled");
+            mediaInputContainer.classList.add("d-none");
             return;
         }
 
@@ -80,7 +93,7 @@ function getSelectedPaymentTypes() {
                 option.classList.add("d-none");
             }
         });
-
+        mediaInputContainer.classList.remove("d-none");
         paymentOption.removeAttribute("disabled");
     });
 }
@@ -98,24 +111,25 @@ function checkConfirmation(checkbox) {
 
 function handleInputTypes(inputName, type, form) {
     var selectedElement = null;
-    var elementType = (type === "select") ? "select" : "input";
+    var elementType = type === "select" ? "select" : "input";
     selectedElement = form.querySelector(`${elementType}[name="${inputName}"]`);
     return selectedElement;
 }
 
-function displayError(message, inputName, type , form) {
-    const selectedElement =  handleInputTypes(inputName, type , form);
-    const existingError = selectedElement.closest(".input-text").querySelector(".error-message");
+function displayError(message, inputName, type, form, bottom = false) {
+    const selectedElement = handleInputTypes(inputName, type, form);
+    const existingError = selectedElement
+        .closest(".input-text")
+        .querySelector(".error-message");
 
-    if(existingError) {
+    if (existingError) {
         existingError.remove();
     }
 
-    addErrorContainer(selectedElement, message);
+    addErrorContainer(selectedElement, message, bottom);
 }
 
-function addErrorContainer(selectedElement, message) {
-
+function addErrorContainer(selectedElement, message, bottom) {
     const parentElement = selectedElement.closest(".input-text");
     const errorContainer = document.createElement("div");
     errorContainer.classList.add("error-message");
@@ -123,46 +137,80 @@ function addErrorContainer(selectedElement, message) {
     errorMessage.classList.add("text-danger");
     errorMessage.textContent = message;
     errorContainer.appendChild(errorMessage);
-    parentElement.appendChild(errorContainer);
 
+    // Find the next sibling element
+    const nextElement = selectedElement.nextSibling;
+
+    // Insert the errorContainer before the next sibling element
+    if (nextElement && !bottom) {
+        parentElement.insertBefore(errorContainer, nextElement);
+    } else {
+        // If there is no next sibling, append the errorContainer at the end
+        parentElement.appendChild(errorContainer);
+    }
 }
 
 function removeErrorContainer(selectedElement) {
-    const errorContainer = selectedElement.closest(".input-text").querySelector(".error-message");
-    if(errorContainer) {
+    const errorContainer = selectedElement
+        .closest(".input-text")
+        .querySelector(".error-message");
+    if (errorContainer) {
         errorContainer.remove();
     }
 }
 
 function handleTopUpFormSubmit(event) {
+    addNumberValidation("topUpAmount", "amount");
     document
         .getElementById("topupForm")
         .addEventListener("submit", function (event) {
             event.preventDefault();
             var formData = new FormData(this);
-            // Send form data using AJAX
-            $.ajax({
-                url: "topup",
-                type: "POST",
-                data: formData,
-                processData: false, // Prevent jQuery from automatically transforming the data into a query string
-                contentType: false, // Set contentType to false, as FormData already encodes the data
-                success: function (response) {
-                    const { message, date } = response;
-                    const convertedDate = new Date(date).toLocaleDateString();
-                    closeModal("topUpModal");
-                    showToast(
-                        message,
-                        "Your request has been successfully submitted",
-                        "test",
-                        convertedDate
+            const payment_method = formData.get("payment_method");
+            const formFile = document.getElementById("formFile");
+
+            //if payment method is credit and no file is uploaded display error unless proceed
+            if (payment_method !== "credit") {
+                if (
+                    formFile.files.length === 0 ||
+                    formFile.files[0] === undefined
+                ) {
+                    displayError(
+                        "Please upload a proof of payment",
+                        "transaction_receipt",
+                        "file",
+                        this,
+                        true
                     );
-                },
-                error: function (xhr, status, error) {
-                    console.error("AJAX request failed:", error);
-                },
-            });
+                    return;
+                }
+            }
+            handleTopUpFormRequest(formData);
         });
+}
+
+function handleTopUpFormRequest(formData) {
+    $.ajax({
+        url: "topup",
+        type: "POST",
+        data: formData,
+        processData: false, // Prevent jQuery from automatically transforming the data into a query string
+        contentType: false, // Set contentType to false, as FormData already encodes the data
+        success: function (response) {
+            const { message, date } = response;
+            const convertedDate = new Date(date).toLocaleDateString();
+            closeModal("topUpModal");
+            showToast(
+                message,
+                "Your request has been successfully submitted",
+                "test",
+                convertedDate
+            );
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX request failed:", error);
+        },
+    });
 }
 
 function handleNetworkChange() {
@@ -193,24 +241,40 @@ function addNumbereOfUser() {
 
     //add event listener to personal number checkbox and log the checked state
     personalNumber.addEventListener("change", function () {
-        if(!this.checked) {
-           number.value = null;
-           return;
+        if (!this.checked) {
+            number.value = null;
+            return;
         }
         number.value = personalNumber.dataset.number;
     });
 }
 
 function loadSubmit(formData) {
+    const form = document.getElementById("loadForm");
+    form.classList.add("d-none");
+    const loader = document.getElementById("loader");
+    loader.classList.remove("d-none");
+
     //ajax request
     $.ajax({
-        url: "load",
+        url: "loadNow",
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,
         success: function (response) {
+            closeModal("loadSelf");
+            loader.classList.add("d-none");
+            form.classList.remove("d-none");
 
+            const { message, date } = response;
+
+            showToast(
+                message,
+                "Your load request has been successfully submitted",
+                "test",
+                date
+            );
         },
         error: function (xhr, status, error) {
             console.error("AJAX request failed:", error);
@@ -218,7 +282,7 @@ function loadSubmit(formData) {
     });
 }
 
-function addNumberValidation(id) {
+function addNumberValidation(id, name) {
     const input = document.getElementById(id);
 
     //add event listener on key up only allow numbers , + and - log error if not
@@ -228,7 +292,7 @@ function addNumberValidation(id) {
         if (!regex.test(value)) {
             displayError(
                 "Please enter a valid number",
-                "number",
+                name,
                 "text",
                 input.closest("form")
             );
@@ -238,15 +302,22 @@ function addNumberValidation(id) {
     });
 }
 
+function addQuickAmount(radio) {
+    const topUpAmount = document.getElementById("topUpAmount");
+    const amount = radio.value;
+
+    topUpAmount.value = amount;
+}
+
 function handleLoadSubmit(event) {
     const validation = [
-        { name: "number", type: "text" , number: true , required: true},
-        { name: "payment_method", type: "select", },
+        { name: "number", type: "text", number: true, required: true },
+        { name: "payment_method", type: "select" },
         { name: "amount", type: "radio" },
         { name: "package", type: "radio" },
     ];
 
-    addNumberValidation("number");
+    addNumberValidation("number", "number");
 
     document
         .getElementById("loadForm")
@@ -266,7 +337,7 @@ function handleLoadSubmit(event) {
 
             validation.forEach((element) => {
                 if (!formData.get(element.name)) {
-                    if (element.name === loadType.value ) {
+                    if (element.name === loadType.value) {
                         displayError(
                             "Please select an option",
                             element.name,
@@ -276,7 +347,7 @@ function handleLoadSubmit(event) {
                         return;
                     }
 
-                    if(element.name === "number" && !number) {
+                    if (element.name === "number" && !number) {
                         displayError(
                             "Please enter a valid number",
                             element.name,
@@ -286,7 +357,9 @@ function handleLoadSubmit(event) {
                         return;
                     }
 
-                    removeErrorContainer(handleInputTypes(element.name, element.type, form));
+                    removeErrorContainer(
+                        handleInputTypes(element.name, element.type, form)
+                    );
                 }
             });
 
@@ -300,6 +373,7 @@ handleTopUpFormSubmit();
 handleLoadSubmit();
 handleNetworkChange();
 addNumbereOfUser();
+handleFileUpload();
 
 window.openModal = openModal;
 window.closeModal = closeModal;
@@ -315,3 +389,7 @@ window.displayError = displayError;
 window.addNumbereOfUser = addNumbereOfUser;
 window.addErrorContainer = addErrorContainer;
 window.addNumberValidation = addNumberValidation;
+window.removeErrorContainer = removeErrorContainer;
+window.addQuickAmount = addQuickAmount;
+window.handleFileUpload = handleFileUpload;
+window.handleTopUpFormRequest = handleTopUpFormRequest;

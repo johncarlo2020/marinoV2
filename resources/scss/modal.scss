@@ -75,8 +75,12 @@
         }
 
         #paymentOption {
-            option span {
-               font-weight: 600;
+
+            option {
+                margin-bottom: 5px;
+              span {
+                font-weight: 600;
+              }
             }
         }
 
@@ -199,5 +203,78 @@
 
     }
 }
+
+#mediaInputContainer {
+.file-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    padding: 10px;
+
+    #selectedFile {
+        width: 60%;
+        height: 100%;
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        color: $silver-500;
+        margin: 0;
+    }
+    .file-btn {
+        min-width: 120px;
+        height: 35px;
+        border-radius: 4px;
+        @extend .button-shadow;
+        background-color: $gold-500;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .text {
+            margin-left: 5px;
+            color: #fff;
+            padding-bottom: 0;
+        }
+    }
+}
+}
+
+.easy-click-amount {
+    // create a grid that will contain the amount dynamicaly
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 5px;
+    margin-top: 5px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 10px;
+
+    .quick-btn {
+        text-align: center;
+        width: 100%;
+        background-color: #fff;
+        @extend .button-shadow;
+        @extend .pill;
+        padding: 4px 10px;
+
+        .quick-lable {
+            color: $silver-500;
+          }
+      }
+
+  .quick-amount:checked + label {
+    background: $gold-500;
+
+    .quick-lable {
+        color: $white;
+      }
+
+  }
+}
+
+
 
 

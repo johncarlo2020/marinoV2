@@ -50,8 +50,36 @@ class GuestController extends Controller
         $histories = History::where('user_id',auth()->id())->get();
         $number = auth()->user()->number;
         $packages = Package::get();
+
+        $quickAmount = [
+            // min amount = 5000 create list of amount increment by 100
+            '5000' => [
+                'name' => 5000,
+                'value' => 5000,
+            ],
+            '10000' => [
+                'name' => 10000,
+                'value' => 10000,
+            ],
+            '15000' => [
+                'name' => 15000,
+                'value' => 15000,
+            ],
+            '20000' => [
+                'name' => 20000,
+                'value' => 20000,
+            ],
+            '25000' => [
+                'name' => 25000,
+                'value' => 25000,
+            ],
+            '30000' => [
+                'name' => 30000,
+                'value' => 30000,
+            ],
+        ];
         //conver to compact
-        return view('dashboard', compact('mops','histories','networks','amounts','packages','number'));
+        return view('dashboard', compact('mops','histories','networks','amounts','packages','number','quickAmount'));
     }
 
     public function contact() {
