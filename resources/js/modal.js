@@ -27,6 +27,8 @@ function closeModal(id) {
 }
 
 function handleLoadTypeChange() {
+    console.log('asdas');
+
     handleLoadTypeSelection(loadType.value);
     loadType.addEventListener("change", function () {
         handleLoadTypeSelection(loadType.value);
@@ -391,7 +393,7 @@ function handleLoadSubmit(event) {
         });
 }
 
-if (window.location.pathname === '/dashboard') {
+if (window.location.pathname == 'dashboard') {
     handleLoadTypeChange();
     getSelectedPaymentTypes();
     handleTopUpFormSubmit();
