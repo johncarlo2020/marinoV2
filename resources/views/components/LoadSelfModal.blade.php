@@ -43,7 +43,9 @@
                         <div class="plan">
                             <input type="radio" id="plan{{$amount->id}}" name="amount" value="{{$amount->id}}"
                                 data-name="P{{$amount->peso}} | B{{$amount->baht}}"
-                                onclick="handleRadioButtonClick(this)">
+                                onclick="handleRadioButtonClick(this)"
+                                @if($amount->baht >  Auth::user()->balance ) disabled @endif
+                            >
                             <label class="amount-btn" for="plan{{$amount->id}}">
                                 <span class="p-0 m-0">
                                     P{{$amount->peso}} | B{{$amount->baht}}
@@ -58,7 +60,9 @@
                         <div class="plan">
                             <input type="radio" id="package{{$package->id}}" name="package"
                                 data-name="{{$package->name}}" value="{{$package->id}}"
-                                onclick="handleRadioButtonClick(this)">
+                                onclick="handleRadioButtonClick(this)"
+                                @if($amount->baht >  Auth::user()->balance ) disabled @endif
+                                >
                             <label class="amount-btn package" for="package{{$package->id}}">
                                 <span class="p-0 m-0 package-name">{{$package->name}}</span>
                                 <span class="p-0 m-0 description">{{$package->description}}</span>
@@ -74,7 +78,8 @@
             </div>
             <div class="mt-6 col-12 input-text confirm-check">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                    onclick="checkConfirmation(this)">
+                    onclick="checkConfirmation(this)"
+                    {{ Auth::user()->balance < 10 ? 'disabled' : '' }}>
                 <label class="form-check-label" for="flexCheckDefault">
                     <i class="fa-solid fa-circle-info"></i> I confirm that the information provided is accurate
                 </label>

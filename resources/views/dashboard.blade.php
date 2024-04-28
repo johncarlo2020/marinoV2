@@ -28,7 +28,7 @@
             </div>
             <div class="p-0 col">
                 <button class="tile-btn">
-                    <i class="fa-solid fa-file-circle-plus"></i></i> <span class="title">New load</span>
+                    <i class="fa-solid fa-clock-rotate-left"></i> <span class="title">History</span>
                 </button>
             </div>
         </div>
