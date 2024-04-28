@@ -74,7 +74,8 @@ class TopUpController extends Controller
         {
             $load = load($request->number,$amount->baht,$request->network);
             if(isset($load['error'])){
-                return $load;
+                return response()->json(['status' => 'error', 'message' => $load['error']['message']]);
+
             }
             DB::beginTransaction();
             try {
@@ -111,7 +112,8 @@ class TopUpController extends Controller
 
             
 
-            return $load;
+            return response()->json(['status' => 'success', 'message' => $load]);
+
         }
 
         if($request->payment_method == 'package')
@@ -119,7 +121,7 @@ class TopUpController extends Controller
             $package = Package::find($request->package);
             $load = loadPackage($request->number,$package->code);
             if(isset($load['error'])){  
-                return $load;
+                return response()->json(['status' => 'error', 'message' => $load['error']['message']]);
             }
 
             DB::beginTransaction();
@@ -155,7 +157,8 @@ class TopUpController extends Controller
                 return response()->json(['error' => $e->getMessage()], 500);
             }
 
-            return $load;
+            return response()->json(['status' => 'success', 'message' => $load]);
+
         }
     }
 }

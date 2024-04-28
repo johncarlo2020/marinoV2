@@ -263,18 +263,33 @@ function loadSubmit(formData) {
         processData: false,
         contentType: false,
         success: function (response) {
-            closeModal("loadSelf");
+           
             loader.classList.add("d-none");
             form.classList.remove("d-none");
-
-            const { message, date } = response;
-
-            showToast(
-                message,
-                "Your load request has been successfully submitted",
-                "test",
-                date
-            );
+            if(response.status == 'success')
+            {
+                closeModal("loadSelf");
+    
+                const { message, date } = response;
+    
+                showToast(
+                    message,
+                    "Your load request has been successfully submitted",
+                    response.message.status,
+                    date
+                );
+            }else if(response.status =='error'){
+                
+                const { message, date } = response;
+    
+                showToast(
+                    message,
+                    response.message,
+                    "Failed",
+                    date
+                );
+            }
+          
         },
         error: function (xhr, status, error) {
             console.error("AJAX request failed:", error);
