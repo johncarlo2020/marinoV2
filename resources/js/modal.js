@@ -293,6 +293,15 @@ function loadSubmit(formData) {
         },
         error: function (xhr, status, error) {
             console.error("AJAX request failed:", error);
+            loader.classList.add("d-none");
+            form.classList.remove("d-none");
+
+            showToast(
+                message,
+                "Your load request has been unsuccessful",
+                "test",
+                date
+            );
         },
     });
 }
@@ -382,13 +391,17 @@ function handleLoadSubmit(event) {
         });
 }
 
-handleLoadTypeChange();
-getSelectedPaymentTypes();
-handleTopUpFormSubmit();
-handleLoadSubmit();
-handleNetworkChange();
-addNumbereOfUser();
-handleFileUpload();
+if (window.location.pathname === '/dashboard') {
+    handleLoadTypeChange();
+    getSelectedPaymentTypes();
+    handleTopUpFormSubmit();
+    handleLoadSubmit();
+    handleNetworkChange();
+    addNumbereOfUser();
+    handleFileUpload();
+}
+
+
 
 window.openModal = openModal;
 window.closeModal = closeModal;
