@@ -177,6 +177,23 @@
                         background-color: $primary;
                     }
                 }
+                //add style to the label when input is disabled
+                input:disabled + label {
+                    background-color: $silver-200;
+                    color: $silver-500;
+                    @extend .button-shadow;
+                    cursor: not-allowed;
+                    span {
+                        color: $silver-500 !important;
+                    }
+                    &:hover {
+                        opacity: 0.8;
+                        background-color: $red-500;
+                        span {
+                            color: #fff !important;
+                        }
+                    }
+                }
             }
         }
 

@@ -18,6 +18,11 @@ function closeModal(id) {
     // find the type submit button and disable it
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton.setAttribute("disabled", "disabled");
+    //get all div that has a class of error-message and remove them
+    const errorMessages = form.querySelectorAll(".error-message");
+    errorMessages.forEach((error) => {
+        error.remove();
+    });
     form.reset();
 }
 
@@ -91,36 +96,42 @@ function checkConfirmation(checkbox) {
     }
 }
 
-function displayError(message, inputName, type , form) {
+function handleInputTypes(inputName, type, form) {
     var selectedElement = null;
-    // if element is inside form
-    //check if the element is a radio button , select or text input using name
-    if (type === "radio") {
-        selectedElement = form.querySelector(`input[name="${inputName}"]`);
-    } else if (type === "text") {
-        selectedElement = form.querySelector(`input[name="${inputName}"]`);
-    } else if (type === "select") {
-        selectedElement = form.querySelector(`select[name="${inputName}"]`);
-    }
+    var elementType = (type === "select") ? "select" : "input";
+    selectedElement = form.querySelector(`${elementType}[name="${inputName}"]`);
+    return selectedElement;
+}
 
-    console.log(selectedElement)
+function displayError(message, inputName, type , form) {
+    const selectedElement =  handleInputTypes(inputName, type , form);
+    const existingError = selectedElement.closest(".input-text").querySelector(".error-message");
+
+    if(existingError) {
+        existingError.remove();
+    }
 
     addErrorContainer(selectedElement, message);
 }
 
 function addErrorContainer(selectedElement, message) {
-   //find the nearest parent element with class input-text
-    const parentElement = selectedElement.closest(".input-text");
 
-    // add a div to it with class error-message
+    const parentElement = selectedElement.closest(".input-text");
     const errorContainer = document.createElement("div");
     errorContainer.classList.add("error-message");
-    // add a span with class text-danger
     const errorMessage = document.createElement("span");
     errorMessage.classList.add("text-danger");
     errorMessage.textContent = message;
     errorContainer.appendChild(errorMessage);
     parentElement.appendChild(errorContainer);
+
+}
+
+function removeErrorContainer(selectedElement) {
+    const errorContainer = selectedElement.closest(".input-text").querySelector(".error-message");
+    if(errorContainer) {
+        errorContainer.remove();
+    }
 }
 
 function handleTopUpFormSubmit(event) {
@@ -196,8 +207,8 @@ function loadSubmit(formData) {
         url: "load",
         type: "POST",
         data: formData,
-        processData: false, // Prevent jQuery from automatically transforming the data into a query string
-        contentType: false, // Set contentType to false, as FormData already encodes the data
+        processData: false,
+        contentType: false,
         success: function (response) {
 
         },
@@ -207,7 +218,35 @@ function loadSubmit(formData) {
     });
 }
 
+function addNumberValidation(id) {
+    const input = document.getElementById(id);
+
+    //add event listener on key up only allow numbers , + and - log error if not
+    input.addEventListener("keyup", function (event) {
+        const value = event.target.value;
+        const regex = /^[0-9+-]+$/;
+        if (!regex.test(value)) {
+            displayError(
+                "Please enter a valid number",
+                "number",
+                "text",
+                input.closest("form")
+            );
+        } else {
+            removeErrorContainer(input);
+        }
+    });
+}
+
 function handleLoadSubmit(event) {
+    const validation = [
+        { name: "number", type: "text" , number: true , required: true},
+        { name: "payment_method", type: "select", },
+        { name: "amount", type: "radio" },
+        { name: "package", type: "radio" },
+    ];
+
+    addNumberValidation("number");
 
     document
         .getElementById("loadForm")
@@ -215,13 +254,6 @@ function handleLoadSubmit(event) {
             event.preventDefault();
             const loadOption = ["amount", "plan"];
             const form = this;
-
-            const validation = [
-                { name: "number", type: "text" },
-                { name: "payment_method", type: "select" },
-                { name: "amount", type: "radio" },
-                { name: "package", type: "radio" },
-            ];
 
             var formData = new FormData(this);
             var number = formData.get("number");
@@ -244,7 +276,7 @@ function handleLoadSubmit(event) {
                         return;
                     }
 
-                    if(element.name === "number") {
+                    if(element.name === "number" && !number) {
                         displayError(
                             "Please enter a valid number",
                             element.name,
@@ -253,6 +285,8 @@ function handleLoadSubmit(event) {
                         );
                         return;
                     }
+
+                    removeErrorContainer(handleInputTypes(element.name, element.type, form));
                 }
             });
 
@@ -280,3 +314,4 @@ window.isLoadtypeDisable = isLoadtypeDisable;
 window.displayError = displayError;
 window.addNumbereOfUser = addNumbereOfUser;
 window.addErrorContainer = addErrorContainer;
+window.addNumberValidation = addNumberValidation;
