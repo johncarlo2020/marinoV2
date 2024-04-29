@@ -68,22 +68,26 @@ class LoadResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount.peso')
+                    ->label('peso')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('amount.baht')
+                    ->label('baht')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('package.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('number')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                Tables\Columns\TextColumn::make('user.email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mop')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
