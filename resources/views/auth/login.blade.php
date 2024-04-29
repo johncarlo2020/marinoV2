@@ -2,12 +2,17 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div class="login-contaniner">
+    <div class="form-contaniner">
         <div class="form">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
                 <div class="row">
+                    <div class="mb-5 col-12 header-content">
+                        <img class="logo" src="{{ asset('images/logo.png') }}" alt="Logo" width="50">
+                        <h2 class="text-bold">Sign in to Marino</h2>
+                        <p>Don't have an account? <a href="{{route('register')}}">Sign up</a></p>
+                    </div>
                     <div class="col-12">
                         <!-- Email Address -->
                         <div class="input-text">
@@ -47,6 +52,22 @@
                     </div>
                     <div class="mt-4 col-12">
                         <button type="submit" class="py-2 btn btn-primary w-100">Log in <i class="fa-solid fa-right-to-bracket"></i></button>
+                    </div>
+                    <div class="mt-4 text-center col-12">
+                        <p class="text-gray">Or sign in with</p>
+                    </div>
+                    <div class="col-12">
+                        <div class="btn-contanier">
+                            <button class="btn btn-icon facebook">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </button>
+                            <button class="btn btn-icon google">
+                                <i class="fa-brands fa-google"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center col-12">
+                        <p class="text-gray">Need more details go back to <a href="/">Home page</a></p>
                     </div>
                 </div>
             </form>

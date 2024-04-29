@@ -1008,11 +1008,45 @@ input,select,option {
     color: red;
 }
 
+.text-gray {
+    color: $silver-300;
+}
 .error-message {
     margin-top: 5px;
     span {
        @extend .error-size;
     }
+}
+.btn-contanier {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+
+    .btn-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: $white;
+        font-size: $font-small;
+
+        @extend .button-shadow;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+.facebook {
+    background-color: #3b5998 !important;
+}
+.google {
+    background-color: #db4437 !important;
 }
 
 
