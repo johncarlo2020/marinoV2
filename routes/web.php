@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\TopUpController;
+use App\Http\Controllers\Auth\ProviderController;
+
 
 
 use App\Http\Controllers\ProfileController;
-
+use Laravel\Socialite\Facades\Socialite;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +24,9 @@ use App\Http\Controllers\ProfileController;
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/auth/{provider}/redirect', [ProviderController::class,'redirect']);
+Route::get('/auth/{provider}/callback', [ProviderController::class,'callback']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,7 +55,5 @@ Route::post('/check', [GuestController::class, 'checkEmail'])->name('check-email
 Route::post('/request', [GuestController::class, 'requestLoad'])->name('request');
 Route::post('/topup', [TopUpController::class, 'topup'])->middleware(['auth', 'verified'])->name('topup');
 Route::post('/loadNow', [TopUpController::class, 'loadNow'])->middleware(['auth', 'verified'])->name('loadNow');
-
-
 
 require __DIR__.'/auth.php';
