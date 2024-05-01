@@ -16,6 +16,15 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 class TopUpController extends Controller
 {
+    public function balance()
+    {
+        $client = auth()->user();
+
+        $data['history'] = History::where('user_id',$client_id)->get();
+        $data['balance'] = User::find($client->id)->pluck('balance');
+
+        return response()->json(['message' => 'success', 'data' => $data], 200);
+    }
     public function topup(Request $request)
     {
         $validatedData = $request->validate([
@@ -39,9 +48,6 @@ class TopUpController extends Controller
         $history->mop = $request->payment_method;
         $history->status = "Requested";
         $history->save();
-
-
-
 
         if ($request->hasFile('transaction_receipt')) {
             $imagePath = $request->file('transaction_receipt')->store('receipts', 'public');
@@ -104,6 +110,8 @@ class TopUpController extends Controller
                     $history->status = $load['status'];
                     $history->save();
                     DB::commit();
+                }else{
+                    return $load;
                 }
                 
             } catch (\Exception $e) {
@@ -152,6 +160,9 @@ class TopUpController extends Controller
                     $history->status = $load['status'];
                     $history->save();
                     DB::commit();
+                }
+                else{
+                    return $load;
                 }
                
 
