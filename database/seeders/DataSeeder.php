@@ -41,6 +41,7 @@ class DataSeeder extends Seeder
             'name' => '2 days 1GB',
             'description' => '2 days 1GB',
             'code' => '11',
+            'baht' => '119',
             'php_amount' => '300',
         ]);
 
@@ -48,6 +49,7 @@ class DataSeeder extends Seeder
             'name' => '8 days 4GB',
             'description' => '8 days 4GB',
             'code' => '12',
+            'baht' => '300',
             'php_amount' => '300',
         ]);
 
@@ -55,13 +57,15 @@ class DataSeeder extends Seeder
             'name' => 'Global 3 days 1GB',
             'description' => 'Global 3 days 1GB',
             'code' => '21',
+            'baht' => '300',
             'php_amount' => '300',
         ]);
 
         Package::create([
-            'name' => 'Global 1 day 4GB',
-            'description' => 'Global 1 day 4GB',
+            'name' => 'Global 15 days 4GB',
+            'description' => 'Global 15 day s4GB',
             'code' => '22',
+            'baht' => '799',
             'php_amount' => '300',
         ]);
 
