@@ -25,18 +25,13 @@ const messaging = getMessaging(app);
 
 getToken(messaging, { vapidKey: 'BGiSfEUukXteJ2GhZ7bIu18fx8KBtJI-Y9NFXHaOLEu3PEb7H_rjRKO7nUl8b1eOw8GWlQmEoEVrcn-harGfoYQ' }).then((currentToken) => {
   if (currentToken) {
-    // Send the token to your server and update the UI if necessary
-
     console.log(currentToken);
-    // ...
+    //store token in database
   } else {
-    // Show permission request UI
     console.log('No registration token available. Request permission to generate one.');
-    // ...
   }
 }).catch((err) => {
   console.log('An error occurred while retrieving token. ', err);
-  // ...
 });
 
 
