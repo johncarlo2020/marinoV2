@@ -7,7 +7,7 @@
             <div class="balance-content">
                 <img src="{{ asset('images/icons/solar_wallet-bold.svg')}}" alt="">
                 <span class="balance-text">
-                    <span class="balance">{{ Auth::user()->balance }} baht</span>
+                    <span class="balance"><span id="balance" class="d-inline"></span> baht</span>
                     <span class="sub-text"><small>Current balance on wallet</small></span>
                 </span>
             </div>
@@ -39,34 +39,13 @@
                     <a class="see-all-btn" href="">See all</a>
                 </div>
             </div>
-            <div class="table-body-container">
-                @foreach ( $histories as $history)
-
-                <div class="table-row-container">
-
-                    <div class="details">
-                        <div class="type">
-                            <i class="fa-solid fa-plus"></i>
-                        </div>
-                        <div class="text">
-                            <span>
-                                {{$history->event}}
-                            </span>
-                            <span class="date d-block">
-                                {{$history->created_at}}
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                {{$history->number}}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="amount-row">
-                        <span>{{$history->amount}}</span>
+            <div id="historyTable" class="table-body-container">
+                <div id="loader" class="loader-container d-none">
+                    <div class="processing">
+                        <div class="loader"></div>
+                        <p>loading...</p>
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
     </div>

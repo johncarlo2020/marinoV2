@@ -19,9 +19,11 @@ class TopUpController extends Controller
     public function balance()
     {
         $client = auth()->user();
+        $balance = auth()->user()->balance;
 
-        $data['history'] = History::where('user_id',$client_id)->get();
-        $data['balance'] = User::find($client->id)->pluck('balance');
+        $data['history'] = History::where('user_id',$client->id)->get();
+        $data['balance'] = $balance;
+
 
         return response()->json(['message' => 'success', 'data' => $data], 200);
     }
@@ -65,7 +67,7 @@ class TopUpController extends Controller
         }
 
 
-        
+
     }
 
     public function loadNow(Request $request)
@@ -96,11 +98,11 @@ class TopUpController extends Controller
                     $newLoad->type = 'Amount';
                     $newLoad->status = $load['status'];
                     $newLoad->save();
-    
+
                     $user = User::find($client->id);
                     $user->balance = $user->balance - $amount->baht;
                     $user->save();
-        
+
                     $history = new History;
                     $history->user_id = $client->id;
                     $history->event = "Load";
@@ -113,14 +115,14 @@ class TopUpController extends Controller
                 }else{
                     return $load;
                 }
-                
+
             } catch (\Exception $e) {
                 // Handle other exceptions
                 DB::rollBack();
                 return response()->json(['error' => $e->getMessage()], 500);
             }
 
-            
+
 
             return response()->json(['status' => 'success', 'message' => $load]);
         }
@@ -129,7 +131,7 @@ class TopUpController extends Controller
         {
             $package = Package::find($request->package);
             $load = loadPackage($request->number,$package->code);
-            if(isset($load['error'])){  
+            if(isset($load['error'])){
                 return response()->json(['status' => 'error', 'message' => $load['error']['message']]);
             }
 
@@ -146,11 +148,11 @@ class TopUpController extends Controller
                     $newLoad->type = 'Amount';
                     $newLoad->status = $load['status'];
                     $newLoad->save();
-    
+
                     $user = User::find($client->id);
                     $user->balance = $user->balance - $package->baht;
                     $user->save();
-        
+
                     $history = new History;
                     $history->user_id = $client->id;
                     $history->event = "Load";
@@ -164,7 +166,7 @@ class TopUpController extends Controller
                 else{
                     return $load;
                 }
-               
+
 
             } catch (\Exception $e) {
                 // Handle other exceptions

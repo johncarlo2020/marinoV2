@@ -36,6 +36,12 @@
             }
         }
     }
+  #historyTable {
+    min-height: 300px;
+    .loader-container {
+        min-height: 200px;
+    }
+  }
 }
 
 .tile-btn {

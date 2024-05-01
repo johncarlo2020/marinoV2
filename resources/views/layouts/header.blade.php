@@ -32,13 +32,22 @@
                         @if ($navLink['child'])
                         <ul class="dropdown-menu">
                             @foreach ($navLink['children'] as $childLink)
-                            <li><a class="dropdown-item" href="{{ $childLink['linkUrl'] }}">{{ $childLink['page'] }}</a>
+                            <li>
+                                <a class="dropdown-item" href="{{ $childLink['linkUrl'] }}">{{ $childLink['page'] }}</a>
                             </li>
                             @endforeach
                         </ul>
                         @endif
                     </li>
                     @endforeach
+                    @auth
+                    <li class="nav-item"><a class="nav-link" href=" {{
+                            route('dashboard') }}">Dashboard</a></li>
+                    @else
+                    <li class="nav-item"><a class="nav-link" href=" {{
+                            route('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link"  href=" {{ route('register') }}">Register</a></li>
+                    @endauth
                 </ul>
             </div>
         </div>
@@ -88,6 +97,14 @@
                             @endif
                         </li>
                         @endforeach
+                        @auth
+                        <li class="nav-item"><a class="nav-link" href=" {{
+                                route('dashboard') }}">Dashboard</a></li>
+                        @else
+                        <li class="nav-item"><a class="nav-link" href=" {{
+                                route('login') }}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link"  href=" {{ route('register') }}">Register</a></li>
+                        @endauth
                     </ul>
                 </div>
             </div>

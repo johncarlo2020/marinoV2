@@ -1,3 +1,5 @@
+import refresh from "./refresh";
+
 const selectedPlan = document.getElementById("selectedPlan");
 const loadType = document.getElementById("loadType");
 const amountAndPackage = document.getElementById("amountAndPackage");
@@ -206,6 +208,8 @@ function handleTopUpFormRequest(formData) {
                 "test",
                 convertedDate
             );
+
+            refresh();
         },
         error: function (xhr, status, error) {
             console.error("AJAX request failed:", error);
@@ -289,6 +293,8 @@ function loadSubmit(formData) {
                     date
                 );
             }
+
+            refresh();
 
         },
         error: function (xhr, status, error) {
@@ -395,6 +401,7 @@ const isDashBoard = document.getElementById("isDashBoard");
 
 // only call if dashboard
 if (isDashBoard) {
+    refresh();
     handleLoadTypeChange();
     getSelectedPaymentTypes();
     handleTopUpFormSubmit();
