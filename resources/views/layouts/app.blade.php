@@ -15,7 +15,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="/js/firebase.js"></script>
+       
 
         <script>
         if ('serviceWorker' in navigator) {
@@ -34,7 +34,6 @@
     <body class="font-sans antialiased dashboard-container">
         <div id="modalback"></div>
         <div class="min-h-screen ">
-            asdas
             @include('components.toast')
             @include('layouts.navigation')
 

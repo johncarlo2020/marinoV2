@@ -4,7 +4,7 @@ use App\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 
-    function sendToToken($token , $data) {
+function sendToToken($token , $data) {
     $url = "https://fcm.googleapis.com/fcm/send";
         $fields = array (
             'to'            => $token,

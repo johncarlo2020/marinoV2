@@ -11,6 +11,15 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+
+    public function saveFcm(Request $request)
+    {
+        $client = Auth()->user();
+        $user = User::find($client->id);
+        $user->fcm_token = $request->fcm_token;
+        $user->save();
+        return $user;
+    }
     /**
      * Display the user's profile form.
      */
