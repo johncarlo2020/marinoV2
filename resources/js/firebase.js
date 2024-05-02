@@ -26,6 +26,7 @@ const messaging = getMessaging(app);
 getToken(messaging, { vapidKey: vapidKey }).then((currentToken) => {
   if (currentToken) {
     console.log(currentToken);
+    console.log('asdas');
     //store token in local storage check first if token is already stored
     if(localStorage.getItem('fcm_token') === null){
       localStorage.setItem('fcm_token', currentToken);
