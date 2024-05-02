@@ -1,5 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/9.6.6/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/<v9+>/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/<v9+>/firebase-messaging-compat.js');
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_API_KEY,
@@ -12,3 +12,15 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage(function(payload) {
+    console.log('Received background message ', payload);
+  
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+      body: payload.notification.body,
+    };
+  
+    self.registration.showNotification(notificationTitle,
+      notificationOptions);
+  });
