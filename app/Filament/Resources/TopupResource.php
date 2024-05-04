@@ -52,6 +52,9 @@ class TopupResource extends Resource
                 Tables\Columns\TextColumn::make('user.email')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),
