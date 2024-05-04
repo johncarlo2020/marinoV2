@@ -12,7 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use App\Models\Item;
+use Filament\Forms\Get;
 class SaleResource extends Resource
 {
     protected static ?string $model = Sale::class;
@@ -23,19 +24,27 @@ class SaleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('item_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('item_id')
+                ->label('Item')
+                ->options(Item::where('qty','!=',0)->pluck('name', 'id'))
+                ->searchable()
+                ->live(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('qty')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->maxValue(function (Get $get){
+                        if(!empty($get('item_id'))){
+                            $qty = Item::where('id',$get('item_id'))->first();
+                            return $qty->qty;
+                        }
+                    }),
                 Forms\Components\TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('P'),
                 Forms\Components\TextInput::make('mop')
                     ->required()
                     ->maxLength(255),
@@ -52,7 +61,7 @@ class SaleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('item_id')
+                Tables\Columns\TextColumn::make('item.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
@@ -61,7 +70,6 @@ class SaleResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mop')
                     ->searchable(),
@@ -80,6 +88,14 @@ class SaleResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make()
+                ->after(function (array $data) {
+                   $item = Item::find($data['item_id']);
+                   $item->qty = $item->qty -= $data['qty'];
+                   $item->save();
+                }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -102,8 +118,8 @@ class SaleResource extends Resource
     {
         return [
             'index' => Pages\ListSales::route('/'),
-            'create' => Pages\CreateSale::route('/create'),
-            'edit' => Pages\EditSale::route('/{record}/edit'),
+            //'create' => Pages\CreateSale::route('/create'),
+            //'edit' => Pages\EditSale::route('/{record}/edit'),
         ];
     }
 }
